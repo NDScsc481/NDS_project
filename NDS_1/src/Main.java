@@ -6,7 +6,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		try{//nathan made a comments
+		try{//nathan made a commentsnhnnnn
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from CUSTOMER");
