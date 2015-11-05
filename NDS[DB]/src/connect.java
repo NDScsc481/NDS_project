@@ -58,6 +58,28 @@ public class connect{
 		}
 	}
 	
+	public int getID(String pN){
+		try{
+			ResultSet rs = stmt.executeQuery("select * from customer where Phone = \"" + pN + "\"");
+			return rs.getInt("CustomerID");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public boolean getStat(String pN){
+		try{
+			ResultSet rs = stmt.executeQuery("select * from customer where Phone = \"" + pN + "\"");
+			return rs.getBoolean("Status");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public void disconnect(){
 		try{
 			con.close();
