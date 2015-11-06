@@ -11,7 +11,7 @@ public class customer extends connect{
 	private String zip;
 	private String phoneNum;
 	private int CID;
-	private boolean isActive;
+	private String status;
 	private connect cn = new connect();
 	
 	
@@ -19,11 +19,11 @@ public class customer extends connect{
 	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z){
 		cn.addCustomer(fN, lN, pN, addLn1, "", c, st, z);
 		CID = cn.getID(pN);
-		isActive = cn.getStat(pN);
+		status = cn.getStat(pN);
 		firstName = fN;
 		lastName = lN;
 		addrLineOne = addLn1;
-		addrLineTwo = "";
+		addrLineTwo = null;
 		city = c;
 		state = st;
 		zip=z;
@@ -34,37 +34,104 @@ public class customer extends connect{
 	public customer(String fN, String lN, String pN, String addLn1, String addLn2, String c, String st, String z){
 		cn.addCustomer(fN, lN, pN, addLn1, addLn2, c, st, z);
 		CID = cn.getID(pN);
-		isActive = cn.getStat(pN);
+		status = cn.getStat(pN);
 		firstName = fN;
 		lastName = lN;
 		addrLineOne = addLn1;
-		addrLineTwo = addLn2;
+		addrLineTwo = null;
 		city = c;
 		state = st;
 		zip=z;
 		phoneNum = pN;
 	}
 	
-	public customer (int CID){
-		ResultSet r = searchCustomer(CID, "", "");
+	//select customer with specified customer ID
+	public customer (int ID){
+		ResultSet r = searchCustomer(ID, "", "");
 		try{
-			CID = r.getInt("CustomerID");
-			isActive = r.getBoolean("Status");
-			firstName = r.getString("FirstName");
-			lastName = r.getString("LastName");
-			addrLineOne = r.getString("Address");
-			addrLineTwo = r.getString("AddressLineTwo");
-			city = r.getString("City");
-			state = r.getString("State");
-			zip = r.getString("zip");
-			phoneNum = r.getString("Phone");
+			while(r.next()){
+				CID = r.getInt("CustomerID");
+				status = r.getString("Status");
+				firstName = r.getString("FirstName");
+				lastName = r.getString("LastName");
+				addrLineOne = r.getString("Address");
+				if((addrLineTwo = r.getString("AddressLineTwo")).length()==0)
+					addrLineTwo = null;
+				city = r.getString("City");
+				state = r.getString("State");
+				zip = r.getString("Zip");
+				phoneNum = r.getString("Phone");
+			}
 		}
 		catch(Exception e){
 			CID = 0;
 		}
 	}
 	
-	public customer (String fN, String lN){
+	public customer (){
 		
+	}
+	
+	public String toString(){
+		if(addrLineTwo!=null){
+			return "Customer ID: " + CID + "\nName: " + firstName + " " + lastName + 
+					"\nAddress: " + addrLineOne + "\n" + addrLineTwo + "\n" + city + ", " + state + " " + zip +
+					"\nPhone Number: " + phoneNum + "\nStatus: " + status;
+		}
+		else{
+			return "Customer ID: " + CID + "\nName: " + firstName + " " + lastName + 
+					"\nAddress: " + addrLineOne + "\n" + city + ", " + state + " " + zip +
+					"\nPhone Number: " + phoneNum + "\nStatus: " + status;
+		}
+	}
+	
+	public boolean modFirstName(String fN){
+		firstName = fN;
+		return cn.modCustomerInfo(CID, "FirstName", fN);
+	}
+	
+	public boolean modLastName(String lN){
+		lastName = lN;
+		return cn.modCustomerInfo(CID, "LastName", lN);
+	}
+	
+	public boolean modAddress(String addLn1, String c, String s, String z){
+		addrLineOne = addLn1;
+		city = c;
+		state = s;
+		zip = z;
+		if(cn.modCustomerInfo(CID, "Address", addLn1)&&cn.modCustomerInfo(CID, "City", c)&&cn.modCustomerInfo(CID, "State", s)&&cn.modCustomerInfo(CID, "Zip", z)){
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean modAddress(String addLn1, String addLn2, String c, String s, String z){
+		addrLineOne = addLn1;
+		addrLineTwo = addLn2;
+		city = c;
+		state = s;
+		zip = z;
+		if(cn.modCustomerInfo(CID, "Address", addLn1)&&cn.modCustomerInfo(CID, "AddressLineTwo", addLn2)&&cn.modCustomerInfo(CID, "City", c)&&cn.modCustomerInfo(CID, "State", s)&&cn.modCustomerInfo(CID, "Zip", z)){
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean modPhoneNum(String pN){
+		phoneNum = pN;
+		return cn.modCustomerInfo(CID, "Phone", pN);
+	}
+	
+	public boolean setStatus(String st){
+		if(status.equals(st)){
+			return false;
+		}
+		else{
+			status = st;
+			return cn.modCustomerInfo(CID, "Status", st);
+		}
 	}
 }
