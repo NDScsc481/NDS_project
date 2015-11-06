@@ -1,6 +1,6 @@
 import java.sql.*;
 
-public class customer extends connect{
+public class customer{
 	
 	private String firstName;
 	private String lastName;
@@ -12,14 +12,16 @@ public class customer extends connect{
 	private String phoneNum;
 	private int CID;
 	private String status;
+	private subscriptions mySubs;
 	private connect cn = new connect();
 	
 	
 	//create new customer AddTypeOne
 	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z){
 		cn.addCustomer(fN, lN, pN, addLn1, "", c, st, z);
-		CID = cn.getID(pN);
-		status = cn.getStat(pN);
+		CID = cn.getCustomerID(pN);
+		mySubs = new subscriptions (cn, CID);
+		status = "ACTIVE";
 		firstName = fN;
 		lastName = lN;
 		addrLineOne = addLn1;
@@ -33,8 +35,9 @@ public class customer extends connect{
 	//create new customer AddTypeTwo
 	public customer(String fN, String lN, String pN, String addLn1, String addLn2, String c, String st, String z){
 		cn.addCustomer(fN, lN, pN, addLn1, addLn2, c, st, z);
-		CID = cn.getID(pN);
-		status = cn.getStat(pN);
+		CID = cn.getCustomerID(pN);
+		mySubs = new subscriptions (cn, CID);
+		status = "ACTIVE";
 		firstName = fN;
 		lastName = lN;
 		addrLineOne = addLn1;
@@ -47,7 +50,8 @@ public class customer extends connect{
 	
 	//select customer with specified customer ID
 	public customer (int ID){
-		ResultSet r = searchCustomer(ID, "", "");
+		ResultSet r = cn.searchCustomer(ID, "", "");
+		ResultSet subs = cn.getSubscriptions(ID);
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
@@ -62,14 +66,17 @@ public class customer extends connect{
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 			}
+			while(subs.next()){
+				mySubs = new subscriptions(ID, subs.getInt("SubscriptionID"), subs.getDouble("TotalAmount"));
+			}
 		}
 		catch(Exception e){
 			CID = 0;
 		}
 	}
 	
-	public customer (){
-		
+	public subscriptions getMySubscriptions(){
+		return mySubs;
 	}
 	
 	public String toString(){
