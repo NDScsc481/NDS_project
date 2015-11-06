@@ -58,10 +58,23 @@ public class connect{
 		}
 	}
 	
+	public boolean modCustomerInfo(int CID, String type, String to){
+		try{
+			stmt.executeUpdate("update customer set " + type + " = \"" + to + "\" where CustomerID = " + CID);
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	
 	public int getID(String pN){
 		try{
 			ResultSet rs = stmt.executeQuery("select * from customer where Phone = \"" + pN + "\"");
-			return rs.getInt("CustomerID");
+			if(rs.next()){
+				return rs.getInt("CustomerID");
+			}
+			return 0;
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -69,14 +82,17 @@ public class connect{
 		}
 	}
 	
-	public boolean getStat(String pN){
+	public String getStat(String pN){
 		try{
 			ResultSet rs = stmt.executeQuery("select * from customer where Phone = \"" + pN + "\"");
-			return rs.getBoolean("Status");
+			if(rs.next()){
+				return rs.getString("Status");
+			}
+			return null;
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 	

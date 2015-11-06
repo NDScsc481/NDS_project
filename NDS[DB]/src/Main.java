@@ -5,14 +5,8 @@ public class Main {
 //	static Statement stmt;
 	
 	public static void main(String[] args) {
-		connect cn = new connect();
-		ResultSet r = cn.searchCustomer(0, "", "Do");
-		try{
-			while(r.next()){
-				System.out.println(r.getString("FirstName") + " " + r.getString("LastName"));
-			}
-		}
-		catch(Exception e){}
+		customer d = new customer(9);
+		System.out.println(d.toString());
 //		try{
 //			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
 //			stmt = con.createStatement();
