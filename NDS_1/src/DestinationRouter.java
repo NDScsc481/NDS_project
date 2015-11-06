@@ -8,24 +8,36 @@
  */
 public class DestinationRouter{		
 	
+	
 	/**
-	 * The sole method called from DestinationRouter.
+	 * Latitude
+	 */
+	private static double OriginX = 0;
+	/**
+	 * Longitude
+	 */
+	private static double OriginY = 0;
+	
+	/**
+	 * Sets the latitude and longitude origin.
+	 * 
+	 * @param x latitude
+	 * @param y longitude 
+	 */	
+	public static void OriginSet(double x, double y){
+		OriginX = x;
+		OriginY = y;
+	}	
+	
+	/**
+	 * The main method called from DestinationRouter.
 	 * Takes latitude and longitude from an array of 
 	 * Customer objects and sorts by distance.
 	 * 
 	 * @param list The unsorted customer list 	  
 	 * @return The sorted customer list
 	 */
-	public Customer[] Sorter(Customer[] list){
-		
-		/**
-		 * Latitude
-		 */
-		double OriginX = 0;
-		/**
-		 * Longitude
-		 */
-		double OriginY = 0;
+	public static Customer[] Sorter(Customer[] list){
 		
 		/**
 		 * Origin initially starts as from delivery origin, then from next closest destination
@@ -55,8 +67,11 @@ public class DestinationRouter{
 		for(int i = 0; i < SortedList.length; i++){
 			
 			for(int j = i; j < list.length; j++){
-				if (i == j)
+				if (i == j){
 					lowDist = CoordDistance(Origin, list[j]);
+					low = j;
+				}
+				
 				else{
 					if (CoordDistance(Origin,list[j]) < lowDist){
 						lowDist = CoordDistance(Origin,list[j]);
