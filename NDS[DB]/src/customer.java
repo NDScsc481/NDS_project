@@ -13,6 +13,7 @@ public class customer{
 	private int CID;
 	private String status;
 	private subscriptions mySubs;
+	private LatLng myPoints;
 	private connect cn = new connect();
 	
 	
@@ -20,6 +21,7 @@ public class customer{
 	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z){
 		cn.addCustomer(fN, lN, pN, addLn1, "", c, st, z);
 		CID = cn.getCustomerID(pN);
+		myPoints = new LatLng(cn, CID);
 		mySubs = new subscriptions (cn, CID);
 		status = "ACTIVE";
 		firstName = fN;
@@ -33,9 +35,10 @@ public class customer{
 	}
 	
 	//create new customer AddTypeTwo
-	public customer(String fN, String lN, String pN, String addLn1, String addLn2, String c, String st, String z){
-		cn.addCustomer(fN, lN, pN, addLn1, addLn2, c, st, z);
+	public customer(String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN){
+		cn.addCustomer(fN, lN, addLn1, addLn2, c, st, z, pN);
 		CID = cn.getCustomerID(pN);
+		myPoints = new LatLng(cn, CID);
 		mySubs = new subscriptions (cn, CID);
 		status = "ACTIVE";
 		firstName = fN;
@@ -55,7 +58,6 @@ public class customer{
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
-				status = r.getString("Status");
 				firstName = r.getString("FirstName");
 				lastName = r.getString("LastName");
 				addrLineOne = r.getString("Address");
@@ -65,6 +67,8 @@ public class customer{
 				state = r.getString("State");
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
+				status = r.getString("Status");
+
 			}
 			while(subs.next()){
 				mySubs = new subscriptions(ID, subs.getInt("SubscriptionID"), subs.getDouble("TotalAmount"));

@@ -50,7 +50,7 @@ public class connect{
 		}
 	}
 	
-	public void addCustomer(String fN, String lN, String pN, String addLn1, String addLn2, String c, String st, String z){
+	public void addCustomer(String fN, String lN,  String addLn1, String addLn2, String c, String st, String z,String pN){
 		String add;
 		try{
 			if(addLn2.length()>0){
@@ -61,10 +61,37 @@ public class connect{
 			}
 			System.out.println(add);
 			stmt.executeUpdate(add);
+			
 		}
 		catch(Exception e){}
 	}
-	
+	/**
+	 * function populates the customercoordinates database with generated CID from customer database
+	 * lat and long.
+	 */
+	public void addLatLngToCustomer( int CID){
+		ResultSet rs;
+		String addCoordinates;
+		String upsformattedAdd = "";
+		try{
+			if(CID != 0){
+				rs = stmt.executeQuery("select * from customer where CustomerID = " + CID);
+					while(rs.next()){
+						upsformattedAdd = rs.getString("Zip") +", "+ rs.getString("Address") + " " + rs.getString("State");
+				}
+
+			LatLng points = computeLatLng.getLatLongPositions(upsformattedAdd);
+	     	addCoordinates = "insert into CUSTOMERCOORDINATES (CustomerID, Latitude, Longitude)" + " values (\"" + CID + "\",\"" + points.lat + "\", \"" + points.lng + "\")";
+			System.out.println(addCoordinates);
+			stmt.executeUpdate(addCoordinates);
+			}
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+
+		}
+	}
 	public ResultSet searchCustomer(int CID, String fN, String lN){
 		ResultSet rs;
 		try{
