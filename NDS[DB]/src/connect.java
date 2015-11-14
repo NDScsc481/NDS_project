@@ -6,7 +6,7 @@ public class connect{
 	
 	public connect(){
 		try{
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fridays_db", "root", "12345");
 			stmt = con.createStatement();
 		}catch(Exception e){
 			e.printStackTrace();
