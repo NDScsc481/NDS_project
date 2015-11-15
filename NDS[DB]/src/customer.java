@@ -55,6 +55,7 @@ public class customer{
 	public customer (int ID){
 		ResultSet r = cn.searchCustomer(ID, "", "");
 		ResultSet subs = cn.getSubscriptions(ID);
+		ResultSet points = cn.getLatLngValues(ID);
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
@@ -68,17 +69,22 @@ public class customer{
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 				status = r.getString("Status");
-
 			}
 			while(subs.next()){
 				mySubs = new subscriptions(ID, subs.getInt("SubscriptionID"), subs.getDouble("TotalAmount"));
 			}
+			while(points.next()){
+				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
+			}
+		//	myPoints = new LatLng()
 		}
 		catch(Exception e){
 			CID = 0;
 		}
 	}
-	
+	public LatLng getLatLng(){
+		return myPoints;
+	}
 	public subscriptions getMySubscriptions(){
 		return mySubs;
 	}

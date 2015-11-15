@@ -38,9 +38,11 @@ public class computeLatLng {
 	         String latitude = (String)expr.evaluate(document, XPathConstants.STRING);
 	         expr = xpath.compile("//geometry/location/lng");
 	         String longitude = (String)expr.evaluate(document, XPathConstants.STRING);
-	        // return new String[] {latitude, longitude};
-	         LatLng newCoor = new LatLng(latitude, longitude);
-	         System.out.print("hello from computerLatLng   Lat: " + newCoor.lat + " long: " + newCoor.lng);
+
+	         double dLat = Double.parseDouble(latitude);//double(latitude);
+	         double dLng = Double.parseDouble(longitude);
+	         LatLng newCoor = new LatLng(dLat, dLng);
+	         System.out.print("hello from computerLatLng   Lat string: " + latitude + " lat double: " + newCoor.lat);
 	         return newCoor;
 	        // return new String[] {latitude, longitude};
 	      }
