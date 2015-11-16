@@ -32,11 +32,8 @@ public class pullCustomersAndGenerateCoordinatesList {
 		   	}catch(Exception e){
 				e.printStackTrace();
 			}		
-		   	
-			
+		   		
 		}
-	
-		
 		LinkedList<LatLng> sortedLatLng = DestinationRouter.distanceSort(latLngList);
 		return sortedLatLng;
 	}
