@@ -1,12 +1,12 @@
 import java.sql.*;
-
+import java.util.Date;
 public class connect{
 	private Connection con;
 	private Statement stmt;
 	
 	public connect(){
 		try{
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3308/ndsdb", "root", "12345");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3308/saturdays_db", "root", "12345");
 			stmt = con.createStatement();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -16,19 +16,23 @@ public class connect{
 	public Connection getConnection(){
 		return con;
 	}
-	
-	public void addSubscritions(int CID){
+	/*
+	 * add subscriptions now additionally needs two more parameters String start and String end (strings in form "yyyy-MM-dd")
+	 * */
+	public void addSubscriptions(int CID, int PID,String start ,String end){
 		try{
-			stmt.executeUpdate("insert into SUBSCRIPTIONS (CustomerID) values (\"" + CID + "\")");
+			stmt.executeUpdate("insert into SUBSCRIPTIONS (CustomerID, PublicationID, StartDate, EndDate) values (\"" + CID + "\",\"" + PID+"\",  \"" + start+ "\", \"" + end + "\")");
 		}
-		catch(Exception e){}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public int getSubscriptionID(int CID){
 		try{
 			ResultSet rs = stmt.executeQuery("select * from subscriptions where CustomerID = " + CID);
 			if(rs.next()){
-				return rs.getInt("SubscriptionID");
+				return rs.getInt("ItemID");
 			}
 			return 0;
 		}
@@ -184,11 +188,19 @@ public class connect{
 		}
 	}
 	
-	public void addPublication(String t, String g, double p, String f){
+	public void addPublication(String title, String genre, double price, String frequency, String issuedOn){
 		try{
-			stmt.executeUpdate("insert into CUSTOMERS (PublicationName, Description, Price, Frequency) values (\"" + t + "\", \"" + g + "\", " + p + ", \"" + f + "\")");
+			System.out.println("in connect add pub");
+
+			stmt.executeUpdate("insert into publications (PublicationName, Genre, Price, Frequency, IssueDate) values (\"" + title + "\", \"" + genre + "\", \"" + price + "\", \"" + frequency + "\", \"" + issuedOn + "\")");
+
 		}
-		catch(Exception e){}
+		catch(Exception e){
+			System.out.println("error in adding pub");
+			e.printStackTrace();
+
+			
+		}
 	}
 	
 	public int getPublicationID(String t){

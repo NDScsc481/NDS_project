@@ -1,3 +1,4 @@
+
 import java.sql.*;
 
 public class customer{
@@ -18,11 +19,12 @@ public class customer{
 	
 	
 	//create new customer AddTypeOne
-	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z){
+	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z, int pubID){
 		cn.addCustomer(fN, lN, pN, addLn1, "", c, st, z);
+
 		CID = cn.getCustomerID(pN);
 		myPoints = new LatLng(cn, CID);
-		mySubs = new subscriptions (cn, CID);
+		mySubs = new subscriptions (cn, CID, pubID);
 		status = "ACTIVE";
 		firstName = fN;
 		lastName = lN;
@@ -35,11 +37,11 @@ public class customer{
 	}
 	
 	//create new customer AddTypeTwo
-	public customer(String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN){
+	public customer(String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN, int pubID){
 		cn.addCustomer(fN, lN, addLn1, addLn2, c, st, z, pN);
 		CID = cn.getCustomerID(pN);
 		myPoints = new LatLng(cn, CID);
-		mySubs = new subscriptions (cn, CID);
+		mySubs = new subscriptions (cn, CID, pubID);
 		status = "ACTIVE";
 		firstName = fN;
 		lastName = lN;
@@ -59,6 +61,7 @@ public class customer{
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
+				status = r.getString("Status");
 				firstName = r.getString("FirstName");
 				lastName = r.getString("LastName");
 				addrLineOne = r.getString("Address");
@@ -68,15 +71,13 @@ public class customer{
 				state = r.getString("State");
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
-				status = r.getString("Status");
 			}
 			while(subs.next()){
-				mySubs = new subscriptions(ID, subs.getInt("SubscriptionID"), subs.getDouble("TotalAmount"));
+				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
 			}
 			while(points.next()){
 				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
 			}
-		//	myPoints = new LatLng()
 		}
 		catch(Exception e){
 			CID = 0;

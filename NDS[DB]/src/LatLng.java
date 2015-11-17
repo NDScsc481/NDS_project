@@ -1,4 +1,5 @@
 
+
 public class LatLng {
 	public int CID;
 	public double lat;
