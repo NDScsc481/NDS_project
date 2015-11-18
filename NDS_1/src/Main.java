@@ -4,7 +4,7 @@ public class Main {
 	static Connection con;
 	static Statement stmt;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) a{
 		
 		try{//kevin made a comment vffuyk
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
@@ -17,7 +17,7 @@ public class Main {
 			
 			addCustomer("Jane", "T", "11111 S Rd", "", "City", "State", "91919", "7654321");
 			
-			ResultSet rs2 = stmt .executeQuery("select * from CUSTOMER");
+			ResultSet rs2 = stmt.executeQuery("select * from CUSTOMER");
 			System.out.println("Database after insert");
 			while(rs2.next()){
 				System.out.println(rs2.getString("FirstName") + " " + rs2.getString("LastName"));
