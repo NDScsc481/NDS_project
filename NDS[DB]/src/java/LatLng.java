@@ -1,4 +1,4 @@
-
+package java;
 
 public class LatLng {
 	public int CID;
