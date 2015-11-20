@@ -19,12 +19,12 @@ public class customer{
 	
 	
 	//create new customer AddTypeOne
-	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z, int pubID){
+	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z){
 		cn.addCustomer(fN, lN, pN, addLn1, "", c, st, z);
 
 		CID = cn.getCustomerID(pN);
 		myPoints = new LatLng(cn, CID);
-		mySubs = new subscriptions (cn, CID, pubID);
+	//	mySubs = new subscriptions (cn, CID, pubID);
 		status = "ACTIVE";
 		firstName = fN;
 		lastName = lN;
@@ -37,11 +37,11 @@ public class customer{
 	}
 	
 	//create new customer AddTypeTwo
-	public customer(String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN, int pubID){
+	public customer(String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN){
 		cn.addCustomer(fN, lN, addLn1, addLn2, c, st, z, pN);
 		CID = cn.getCustomerID(pN);
 		myPoints = new LatLng(cn, CID);
-		mySubs = new subscriptions (cn, CID, pubID);
+		//mySubs = new subscriptions (cn, CID, pubID);
 		status = "ACTIVE";
 		firstName = fN;
 		lastName = lN;
