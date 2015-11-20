@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Customer Center</title>
+<title>Print Summary</title>
 <head>
 <style>
 #header {
@@ -27,7 +27,7 @@
     padding:10px;	 	 
 }
 #footer {
-    position: fixed;
+ 	position: fixed;
   	bottom: 0;
     width: 100%;
     background-color:black;
@@ -40,8 +40,8 @@
 </head>
 <body>
 
-<div id="header"> 
-<img src="/images/paperboy.jpg" alt="Paperboy Newspaper Delivery System"> 
+<div id="header">
+<h1>Newspaper Delivery System</h1>
 </div>
 
 <div id="nav">
@@ -53,12 +53,7 @@
 </div>
 
 <div id="section">
-<h2>Customer Center</h2>
-
-<a href="CustomerAdd.jsp">Add</a><br>
-<a href="CustomerModify.jsp">Modify</a><br>
-<a href="CustomerLookup.jsp">Lookup</a><br>
-<a href="CustomerView.jsp">View</a><br>
+<h2>Print Publication Sumamry</h2>
 </div>
 
 <div id="footer">
@@ -67,3 +62,4 @@ Copyright © Team One - CSC 481
 
 </body>
 </html>
+

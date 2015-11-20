@@ -8,4 +8,11 @@
 	</buildSpec>
 	<natures>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>NDS_1/src/com/nds/pkg/logo</name>
+			<type>1</type>
+			<location>/home/matt/NDS_project/NDS_1/src/paperboy.jpg</location>
+		</link>
+	</linkedResources>
 </projectDescription>
