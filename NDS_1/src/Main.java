@@ -6,7 +6,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		try{
+		try{//kevin made a comment vffuyk
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from CUSTOMER");
@@ -25,7 +25,8 @@ public class Main {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+		//whats up bitches
+		//fuck taht
 	}
 	public static void addCustomer(String first, String last, String address, String address2, String city, String state, String zip, String phone){
 		try{
