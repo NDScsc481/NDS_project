@@ -17,7 +17,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		connect cn = new connect();
-
+		Date newDate = new Date();
 		
 	  /*  CODE FOR LAT LONG DRIVER PATH
 	   * 

@@ -139,6 +139,7 @@ public class connect{
 				return null;
 			}
 		}
+		
 		public ResultSet searchCustomer(int CID, String fN, String lN){
 		ResultSet rs;
 		try{
@@ -164,6 +165,15 @@ public class connect{
 	}
 	
 	public boolean modCustomerInfo(int CID, String type, String to){
+		try{
+			stmt.executeUpdate("update customers set " + type + " = \"" + to + "\" where CustomerID = " + CID);
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	public boolean modCustomerInfo(int CID, String type, Date to){
 		try{
 			stmt.executeUpdate("update customers set " + type + " = \"" + to + "\" where CustomerID = " + CID);
 			return true;
