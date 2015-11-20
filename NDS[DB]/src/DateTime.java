@@ -73,6 +73,114 @@ public class DateTime {
 		myCal.setTime(fromHere);
 		return myCal.DAY_OF_WEEK;
 	}
+	public static String getDayFromNum(int i){
+		String day="";
+		switch(i){
+		case 0: 
+			day = "Monday";
+			break;
+		
+		case 1: 
+			day = "Tuesday";
+			break;
+		case 2:
+			day = "Wednesday";
+			break;
+		case 3:
+			day = "Thursday";
+			break;
+		case 4:
+			day = "Friday";
+			break;
+		case 5:
+			day = "Saturday";
+			break;
+		case 6:
+			day = "Sunday";
+			break;
+		}
+		return day;
+
+	}
+	public static String getFirstInstanceOf(int day){
+		String strDay = getDayFromNum(day);
+	 LocalDate now =LocalDate.now();
+	 LocalDate date=LocalDate.of(now.getYear(),now.getMonthValue(), 1);
+		 if(strDay == "Monday"){
+			 for(int i=0;i<date.lengthOfMonth();i++){
+			        if("Monday".equalsIgnoreCase(date.getDayOfWeek().toString())){
+			            break;
+			        }else{
+			            date=date.plusDays(1);
+			        }
+			    }
+
+		 }
+		 else if(strDay == "Tuesday"){
+			 for(int i=0;i<date.lengthOfMonth();i++){
+			        if("Tueday".equalsIgnoreCase(date.getDayOfWeek().toString())){
+			            break;
+			        }else{
+			            date=date.plusDays(1);
+			        }
+			    }
+		 }
+		 else if(strDay == "Wednesday"){
+			 for(int i=0;i<date.lengthOfMonth();i++){
+			        if("Wednesday".equalsIgnoreCase(date.getDayOfWeek().toString())){
+			            break;
+			        }else{
+			            date=date.plusDays(1);
+			        }
+			    }
+		 }
+		 else if(strDay == "Thursday"){
+			 for(int i=0;i<date.lengthOfMonth();i++){
+			        if("Thursday".equalsIgnoreCase(date.getDayOfWeek().toString())){
+			            break;
+			        }else{
+			            date=date.plusDays(1);
+			        }
+			    }
+		 }
+		 else if(strDay == "Friday"){
+			 for(int i=0;i<date.lengthOfMonth();i++){
+			        if("Friday".equalsIgnoreCase(date.getDayOfWeek().toString())){
+			            break;
+			        }else{
+			            date=date.plusDays(1);
+			        }
+			    }
+		 }
+		 else if(strDay == "Saturday"){
+			 for(int i=0;i<date.lengthOfMonth();i++){
+			        if("Saturday".equalsIgnoreCase(date.getDayOfWeek().toString())){
+			            break;
+			        }else{
+			            date=date.plusDays(1);
+			        }
+			    }
+		 }
+		 else if(strDay == "Sunday"){
+			 for(int i=0;i<date.lengthOfMonth();i++){
+			        if("Sunday".equalsIgnoreCase(date.getDayOfWeek().toString())){
+			            break;
+			        }else{
+			            date=date.plusDays(1);
+			        }
+			    }
+		 }
+		   // String aDate = dateToStr(date.getDayOfMonth());
+		 String dayOfMonth=" ";
+		 if(date.getDayOfMonth()< 10){
+			 dayOfMonth = "0"+ date.getDayOfMonth();
+		 }else
+			 dayOfMonth = ""+ date.getDayOfMonth();
+		 return date.getYear() + "-"+ date.getMonthValue() + "-"+ dayOfMonth;
+		 
+		
+	
+	}
 //	public Calendar getDayFromIntValue(int dayNum){
 //		Calendar weekDay = Calendar.getInstance();
 //		switch(dayNum){

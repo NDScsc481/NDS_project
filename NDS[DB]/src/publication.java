@@ -1,6 +1,14 @@
 import java.sql.ResultSet;
 import java.text.*;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.lang.Object;
+import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 
 public class publication {
 	private String title;
@@ -12,10 +20,21 @@ public class publication {
 	protected String firstIssuedOn;
 	private connect cn = new connect();
 	NumberFormat fmatr = new DecimalFormat("$#.##"); 
-	//added issuedOn to paramters which marks the date the publication was issued
-	public publication(String tit, String gen, double prc, String freq, String issuedOn){
-		cn.addPublication(tit, gen, prc, freq, issuedOn );
-		firstIssuedOn = issuedOn;
+	public publication(String tit, String gen, double prc, String freq, boolean[] weekdays){
+		
+		int intWeekday =0;
+		if(freq =="daily")
+			firstIssuedOn = DateTime.getFirstInstanceOf(intWeekday);
+		else{
+			for(int i =0; i< weekdays.length; i++){
+				if(weekdays[i])
+					intWeekday = i;
+			}
+			firstIssuedOn = DateTime.getFirstInstanceOf(intWeekday);
+		}
+		
+		//cn.addPublication(tit, gen, prc, freq, issuedOn );
+		//firstIssuedOn = issuedOn;
 		PID = cn.getPublicationID(title);
 		status = "ACTIVE";
 		title = tit;
