@@ -44,12 +44,15 @@ public class PubAddSrvlt extends HttpServlet {
 		 day6 	= request.getParameter("day6");
 		 day7 	= request.getParameter("day7");
 		String freq 	= request.getParameter("freq");
+		Boolean []schedule = new Boolean[7]; 
 		
 		if(!title.isEmpty() && !price.isEmpty() && !genre.isEmpty()){
-			if(freq.equals("day"))
-				title = "first cond";//publication thisPub = new publication(title, genre, price);
-			else{
-				Boolean []schedule = new Boolean[7]; 
+			if(freq.equals("daily")){
+				for(int i = 0, i < 7; i++)
+					schedule[i] = true;
+				publication thisPub = new publication(title, genre, price, freq, schedule);
+			}
+			else{				
 				
 				if(day1 != null)
 					schedule[6] = false;
@@ -86,7 +89,7 @@ public class PubAddSrvlt extends HttpServlet {
 				else
 					schedule[5] = true;
 				
-				title = "second cond";//publication thisPub = new publication(title, genre, price, freq, schedule);
+				publication thisPub = new publication(title, genre, price, freq, schedule);
 			}							
 			
 			request.setAttribute("Msg", "<p style='color:darkred'>" + title + " was added successfully!</p>");

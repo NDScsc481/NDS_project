@@ -40,8 +40,8 @@
 </head>
 <body>
 
-<div id="header">
-<h1>Newspaper Delivery System</h1>
+<div id="header"> 
+<img src="/images/paperboy.jpg" alt="Paperboy Newspaper Delivery System"> 
 </div>
 
 <div id="nav">
