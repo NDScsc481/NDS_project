@@ -14,7 +14,7 @@ public class connect1{
 	/**
 	 * Constructs the connection to the database.
 	 **/
-	public connect(){
+	public connect1(){
 		try{
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsnew", "root", "12345");
 			stmt = con.createStatement();
