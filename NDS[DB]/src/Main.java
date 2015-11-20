@@ -18,6 +18,8 @@ public class Main {
 	public static void main(String[] args) {
 		connect cn = new connect();
 		Date newDate = new Date();
+		String day = DateTime.getFirstInstanceOf(0);
+		System.out.println("first monday of this month" + day);
 		
 	  /*  CODE FOR LAT LONG DRIVER PATH
 	   * 
