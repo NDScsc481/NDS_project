@@ -7,7 +7,7 @@ public class print {
 	//daily summary: 
 	//daily route: list customer with address,
 	public void setDirLoc(connect cn, String newLoc){
-		
+		//everyone loves me
 	}
 	
 	public void getDirLoc(connect cn){
