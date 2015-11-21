@@ -29,12 +29,10 @@ public class DateTime {
 	public static String dateToStr(Date date){
 		
 		String newstring = new SimpleDateFormat("yyyy-MM-dd").format(date);
-		System.out.println(newstring); // 2011-01-18
 		return newstring;
 	}
 	public static Date getTimeNow(){
 		Date now = new Date();
-		System.out.println("DateTime getTimenow: " + now);
 
 		return now;
 	}
@@ -43,21 +41,18 @@ public class DateTime {
 			myCal.setTime(start);
 			myCal.add(Calendar.YEAR, 1);
 			
-			System.out.println("DateTime addOneYear: " + myCal.getTime());
 			return myCal.getTime();
 	}
 	public static Date addOneWeek(Date fromHere){
 		Calendar myCal = Calendar.getInstance();
 		myCal.setTime(fromHere);
 		myCal.add(Calendar.WEEK_OF_MONTH, 1);
-		System.out.println("adding one week: " + myCal.getTime());
 		return myCal.getTime();
 	}
 	public static Date addOneDay(Date fromHere){
 		Calendar myCal = Calendar.getInstance();
 		myCal.setTime(fromHere);
 		myCal.add(Calendar.DAY_OF_MONTH, 1);
-		System.out.println("adding one week: " + myCal.getTime());
 		return myCal.getTime();
 	}
 	public static Date addOneMonth(Date fromHere){
@@ -65,7 +60,6 @@ public class DateTime {
 		myCal.setTime(fromHere);
 		myCal.add(Calendar.MONTH, 1);
 		
-		//System.out.println("adding one week: " + myCal.getTime());
 		return myCal.getTime();
 	}
 	public static int getDayOfTheWeek(Date fromHere){
@@ -170,16 +164,12 @@ public class DateTime {
 			        }
 			    }
 		 }
-		   // String aDate = dateToStr(date.getDayOfMonth());
 		 String dayOfMonth=" ";
 		 if(date.getDayOfMonth()< 10){
 			 dayOfMonth = "0"+ date.getDayOfMonth();
 		 }else
 			 dayOfMonth = ""+ date.getDayOfMonth();
 		 return date.getYear() + "-"+ date.getMonthValue() + "-"+ dayOfMonth;
-		 
-		
-	
 	}
 //	public Calendar getDayFromIntValue(int dayNum){
 //		Calendar weekDay = Calendar.getInstance();

@@ -17,10 +17,89 @@ public class Main {
 
 	public static void main(String[] args) {
 		connect cn = new connect();
-		Date newDate = new Date();
-		String day = DateTime.getFirstInstanceOf(0);
-		System.out.println("first monday of this month" + day);
 		
+		LinkedList<customer> custList = new LinkedList<customer>();
+		LinkedList<customer> sortedCustList = new LinkedList<customer>();
+
+		custList = PullTodaysCustomerDeliveries.generateTodaysPublicationList();
+		System.out.println("unsorted list size " + custList.size());
+		for(int j =0; j<custList.size();j++){
+			System.out.println(custList.get(j));
+			
+		}
+		LinkedList<LatLng> latLngList = new LinkedList<LatLng>();
+		latLngList = generateCoordinatesList.generateList(custList);
+		for(int j =0; j<custList.size();j++){
+			int custID = latLngList.get(j).CID;
+			for(int i =0; i< latLngList.size(); i++){
+				//int pubID = custList.get(i).PID;
+				//int pubID2 = custList.get(i+1).PID;
+				//System.out.println("pubId: "+ custList.get(i).PID+ " pubID2: "+ pubID2);
+
+				if(custList.get(i).CID == custID ){
+					sortedCustList.add(custList.get(i));
+					 break;
+					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
+
+				}
+			}
+		}
+		System.out.println("LatLanglist: " + latLngList.size());
+		for(int p =0; p< latLngList.size(); p++){
+			System.out.println(latLngList.get(p));
+		}
+		System.out.println("Sorted cust list size: " + sortedCustList.size());
+		for(int p =0; p< sortedCustList.size(); p++){
+			System.out.println(sortedCustList.get(p));
+		}
+//		publication todaysPub;
+//		try{
+//			while(rs.next()){
+//			String issueDate = rs.getString("IssueDate");
+//			String freq = rs.getString("Frequency");
+//			todaysPub = new publication(rs.getInt("PublicationID"));
+//			String next = todaysPub.getNextIssueDate(issueDate, freq);
+//
+//			System.out.println("IssueDate: "+ issueDate + " NextIssueDate: "+ next+  " of pub ID: "+ rs.getInt("PublicationID") + " freq: "+ freq );
+//
+//		}
+//			
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}	
+//		
+//		publication pub = new publication(3);
+//		String freq = pub.f
+//		
+		/*boolean days[]= new boolean[7];//= new boolean[];
+		days[0]= false;
+		days[1]= false;
+		days[2]= true;
+		days[3]=false;
+		days[4]=false;
+		days[5]=false;
+		days[6]=false;
+//		publication pub = new publication("Stars","Entertainment",3.74, "Weekly", days);
+		//	public publication(String tit, String gen, double prc, String freq, boolean[] weekdays){
+		int CID = cn.getCustomerID("4444444444");//Matt 44
+		subscriptions sub = new subscriptions(cn, CID, 26);
+		int CID2 = cn.getCustomerID("2252222222");//Dru 50
+		subscriptions sub2 = new subscriptions(cn, CID2, 26);
+		int CID3 = cn.getCustomerID("8889996666");
+		subscriptions sub3 = new subscriptions(cn, CID3, 26);
+		int CID4 = cn.getCustomerID("2212222229");
+		subscriptions sub4 = new subscriptions(cn, CID4, 26);
+		int CID5 = cn.getCustomerID("4444444444");
+		subscriptions sub5 = new subscriptions(cn, CID5, 27);
+		int CID6 = cn.getCustomerID("2252222222");
+		subscriptions sub6 = new subscriptions(cn, CID6, 27);
+		int CID7 = cn.getCustomerID("8889996666");
+		subscriptions sub7 = new subscriptions(cn, CID7, 27);
+		int CID8 = cn.getCustomerID("2212222229");
+		subscriptions sub8 = new subscriptions(cn, CID8, 27);
+		System.out.println("int ID: " + CID3);
+		*/
+
 	  /*  CODE FOR LAT LONG DRIVER PATH
 	   * 
 	   *   code for pulling ALL customers in DB and producing a list of customer coordinates with 
@@ -62,6 +141,7 @@ public class Main {
 		customer mockCust1 = new customer("Sara","Leal", "1501 Garnet Ave", "", "San Diego", "CA", "92109", "6666666666",12);
 		customer mockCust2 = new customer("Patrick","Griffen", "5207 Diane Ave", "", "San Diego", "CA", "92117", "5555555555",17);
 		customer mockCust3 = new customer("Matt","Gerold", "2523 Beryl St", "", "San Diego", "CA", "92109", "4444444444",14);
+		customer organization = new customer("Daniel","Omar", "4535 Morrell St", "", "San Diego", "CA", "92109", "5511115555");
 		customer mockCust4 = new customer("Pierce","Bryce", "4954 Collingwood Dr", "", "San Diego", "CA", "92109", "3333333333",9);
 		customer mockCust5 = new customer("Ashley","Dorris", "6611 Neptune Place", "", "La Jolla", "CA", "92037", "6199857129",22);
 		customer mockCust6 = new customer("Brandon","Blumm", "5023 San Joaquin Dr", "", "San Diego", "CA", "92109", "6194227129",19);

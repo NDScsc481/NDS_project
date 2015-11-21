@@ -15,9 +15,10 @@ public class publication {
 	private String genre;
 	private double price;
 	private String frequency;
-	private int PID;
+	protected int PID;
 	private String status;
 	protected String firstIssuedOn;
+	public String nextIssuedOn;
 	private connect cn = new connect();
 	NumberFormat fmatr = new DecimalFormat("$#.##"); 
 	public publication(String tit, String gen, double prc, String freq, boolean[] weekdays){
@@ -33,7 +34,7 @@ public class publication {
 			firstIssuedOn = DateTime.getFirstInstanceOf(intWeekday);
 		}
 		
-		//cn.addPublication(tit, gen, prc, freq, issuedOn );
+		cn.addPublication(tit, gen, prc, freq, firstIssuedOn );
 		//firstIssuedOn = issuedOn;
 		PID = cn.getPublicationID(title);
 		status = "ACTIVE";
@@ -54,6 +55,7 @@ public class publication {
 				frequency = r.getString("Frequency");
 				genre = r.getString("Genre");
 				firstIssuedOn = r.getString("IssueDate");
+				//nextIssuedOn = r.getString(columnIndex)
 			}
 		}
 		catch(Exception e){
@@ -62,7 +64,8 @@ public class publication {
 	}
 	
 	public String toString(){
-		return "Publication: \nPublication Name: " + title + "\nGenre: " + genre + "\nPrice: $" + fmatr.format(price) + "\nFrequency: " + frequency;
+		return "[Publication: " + title + ", Genre: " + genre + "\nPrice: " + fmatr.format(price) 
+		+ ", Frequency: " + frequency + ", firstIssuedOn: " + firstIssuedOn+"]";
 	}
 	
 	public boolean modPrice(double nPrice){
@@ -74,27 +77,50 @@ public class publication {
 	 * on (firstIssuedOn) and adding whatever increment that correlates to it (e.g. Monthly, weekly, daily)
 	 * enough times to get to the next issue date. 
 	 * */
-	public String getNextIssueDate(){
+	public String getNextIssueDate(String issuedDate, String freq){
+		
+		freq= freq.toLowerCase();
+		//System.out.println("freq: " + freq);
 		Date today = new Date();
-		Date nextDate = DateTime.strToDate(firstIssuedOn);
-		 if(this.frequency == "daily"){
-				do{
+		Date nextDate = DateTime.strToDate(issuedDate);
+		 if(freq.equals("daily")){
+			 while(nextDate.before(today)){
+				 String str = DateTime.dateToStr(nextDate);
+				 String todayStr = DateTime.dateToStr(today);
+				 if(str.equals(todayStr)){
+					break;
+				}
+				 else{
 				    nextDate = DateTime.addOneDay(nextDate);
-				}while(nextDate.before(today));
+					}
+				}
 			}
-		 else if(this.frequency == "weekly"){
-			do{
-			    nextDate = DateTime.addOneWeek(nextDate);
-			}while(nextDate.before(today));
+		 else if(freq.equals("weekly")){
+			 while(nextDate.before(today)){
+				 String str = DateTime.dateToStr(nextDate);
+				 String todayStr = DateTime.dateToStr(today);
+				if(str.equals(todayStr)){
+				    break;
+				}else{
+					 nextDate = DateTime.addOneWeek(nextDate);
+					   // System.out.println("next date: "+ nextDate + " today : " + today);
+				}
+			}
 		}
-		 /*else then frequency = monthly*/
-		 else{
-			 do{
+		 else if(freq.equals("monthly")){
+			 while(nextDate.before(today)){
+				 String str = DateTime.dateToStr(nextDate);
+				 String todayStr = DateTime.dateToStr(today);
+				if(str.equals(todayStr)){
+				    break;
+				}else{
 				nextDate = DateTime.addOneMonth(nextDate);
-				}while(nextDate.before(today));
-			 
+				}
+			 }
 		 }
-		 return DateTime.dateToStr(nextDate);
+		 String next =  DateTime.dateToStr(nextDate);
+		 setNextIssueDate(next);
+		 return next;
 	}
 	
 	public boolean setStatus(String st){
@@ -106,4 +132,8 @@ public class publication {
 			return cn.modPublicationInfo(PID, st);
 		}
 	}
+	public void setNextIssueDate(String next){
+		nextIssuedOn = next;
+	}
+	
 }

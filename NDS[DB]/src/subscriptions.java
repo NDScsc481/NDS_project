@@ -7,7 +7,7 @@ import java.util.*;
 public class subscriptions{
 	private int CID;
 	private int SID;
-	private int PID;//=0;
+	private int PID;
 	public double totalPrice;
 	protected static Date startDate;
 	protected static Date endDate;
@@ -19,7 +19,7 @@ public class subscriptions{
 		setStartDate(startDate);
 		endDate= DateTime.addOneYear(startDate);
 		setEndDate(endDate);
-		cn.addSubscriptions(CID,PID, DateTime.dateToStr(startDate), DateTime.dateToStr(endDate) );
+		cn.addSubscriptions(CID,PID, DateTime.dateToStr(startDate), DateTime.dateToStr(endDate));
 		SID = cn.getSubscriptionID(CID);
 		totalPrice = 0;
 		

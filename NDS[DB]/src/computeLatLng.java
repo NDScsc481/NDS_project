@@ -22,7 +22,6 @@ public class computeLatLng {
 	    responseCode = httpConnection.getResponseCode();
 	    if(responseCode == 200)
 	    {
-	    	System.out.println("in computeLatLng responsecode 200");
 	      DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();;
 	      Document document = builder.parse(httpConnection.getInputStream());
 	      XPathFactory xPathfactory = XPathFactory.newInstance();
@@ -31,7 +30,6 @@ public class computeLatLng {
 	      String status = (String)expr.evaluate(document, XPathConstants.STRING);
 	      if(status.equals("OK"))
 	      {
-		    	System.out.println("in computeLatLng status OK");
 
 	         expr = xpath.compile("//geometry/location/lat");
 	         expr = xpath.compile("//geometry/location/lat");
@@ -39,16 +37,13 @@ public class computeLatLng {
 	         expr = xpath.compile("//geometry/location/lng");
 	         String longitude = (String)expr.evaluate(document, XPathConstants.STRING);
 
-	         double dLat = Double.parseDouble(latitude);//double(latitude);
+	         double dLat = Double.parseDouble(latitude);
 	         double dLng = Double.parseDouble(longitude);
 	         LatLng newCoor = new LatLng(dLat, dLng);
-	         System.out.print("hello from computerLatLng   Lat string: " + latitude + " lat double: " + newCoor.lat);
 	         return newCoor;
-	        // return new String[] {latitude, longitude};
 	      }
 	      else
 	      {
-		    	System.out.println("in computeLatLng exception");
 
 	         throw new Exception("Error from the API - response status: "+status);
 	      }
