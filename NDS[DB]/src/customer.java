@@ -59,8 +59,7 @@ public class customer{
 	public customer(connect con, int ID){
 		cn = con;
 		ResultSet r = cn.searchCustomer(ID, "", "");
-		ResultSet subs = cn.getSubscriptions(ID);
-		ResultSet points = cn.getLatLngValues(ID);
+//		ResultSet points = cn.getLatLngValues(ID);
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
@@ -68,8 +67,7 @@ public class customer{
 				firstName = r.getString("FirstName");
 				lastName = r.getString("LastName");
 				addrLineOne = r.getString("Address");
-				if((addrLineTwo = r.getString("AddressLineTwo")).length()==0)
-					addrLineTwo = null;
+				addrLineTwo = r.getString("AddressLineTwo");
 				city = r.getString("City");
 				state = r.getString("State");
 				zip = r.getString("Zip");
@@ -78,9 +76,9 @@ public class customer{
 //			while(subs.next()){
 //				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
 //			}
-			while(points.next()){
-				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
-			}
+//			while(points.next()){
+//				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
+//			}
 		}
 		catch(Exception e){
 			CID = 0;
@@ -169,7 +167,7 @@ public class customer{
 		}
 	}
 	
-	public String getCID(){
-		return String.valueOf(CID);
+	public int getCID(){
+		return CID;
 	}
 }

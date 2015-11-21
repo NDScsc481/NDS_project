@@ -17,10 +17,13 @@ public class Main {
 
 	public static void main(String[] args) {
 		connect cn = new connect();
-		Date newDate = new Date();
-		String day = DateTime.getFirstInstanceOf(0);
-		System.out.println("first monday of this month" + day);
-		
+//		Date newDate = new Date();
+//		String day = DateTime.getFirstInstanceOf(0);
+//		System.out.println("first monday of this month" + day);
+		user u = new user(cn);
+		System.out.println(u.toString());
+		print p = new print(cn);
+		p.printAllBills();
 	  /*  CODE FOR LAT LONG DRIVER PATH
 	   * 
 	   *   code for pulling ALL customers in DB and producing a list of customer coordinates with 

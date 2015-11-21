@@ -9,12 +9,9 @@ public class subscriptions{
 	private int CID;
 	private int SID;
 	private int PID;//=0;
-	public double totalPrice;
 	protected static Date startDate;
-	protected static Date endDate;
-	NumberFormat fmatr = new DecimalFormat("#0.00"); 
+	protected static Date endDate; 
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-    private publication p;
     private connect cn;
   
 	public subscriptions(connect con,int CID, int PID){
@@ -25,8 +22,6 @@ public class subscriptions{
 		setEndDate(endDate);
 		cn.addSubscriptions(CID,PID, DateTime.dateToStr(startDate), DateTime.dateToStr(endDate) );
 		SID = cn.getSubscriptionID(CID);
-		totalPrice = 0;
-		
 	}
 	
 	public subscriptions(connect con, int ID){
@@ -35,10 +30,10 @@ public class subscriptions{
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
-				SID = r.getInt("SubscriptionID");
+				SID = r.getInt("ItenID");
 				PID = r.getInt("PublicationID");
-				totalPrice = r.getDouble("total");
-				startDate = 
+				startDate = DateTime.strToDate("StartDate");
+				endDate = DateTime.strToDate("EndDate");
 			}
 		}
 		catch(Exception e){
@@ -50,9 +45,6 @@ public class subscriptions{
 		return new publication(cn, PID);
 	}
 	
-	public double getTotal(){
-		return totalPrice;
-	}
 	public static void setStartDate(Date start){
 		startDate = start ;
 	}

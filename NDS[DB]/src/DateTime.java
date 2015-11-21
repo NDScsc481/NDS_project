@@ -206,8 +206,7 @@ public class DateTime {
 	}
 	
 	public static String getDateNameFile(){
-		Calendar myCal = Calendar.getInstance();
-		return String.valueOf(myCal.MONTH)+String.valueOf(myCal.YEAR);
+		return dateToStr(getTimeNow());
 	}
 	
 //	public Calendar getDayFromIntValue(int dayNum){

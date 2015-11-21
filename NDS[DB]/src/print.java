@@ -35,20 +35,20 @@ public class print {
 		try{
 			while(r.next()){
 				customer tempc = new customer(cn, r.getInt("CustomerID"));
-				s = cn.getSubscriptions(r.getInt("CustomerID"));
-				invoiceNum = DateTime.getDateNameFile()+tempc.getCID()+".txt";
-				File f = new File(filePath, invoiceNum);
+				s = cn.getSubscriptions(tempc.getCID());
+				invoiceNum = DateTime.getDateNameFile()+String.valueOf(tempc.getCID());
+				File f = new File(filePath, invoiceNum + ".txt");
 				BufferedWriter w = new BufferedWriter(new FileWriter(f));
 				w.write(billHeader()+invoiceNum);
-				w.write("\n\nBill/Ship To: \n" + tempc.getFullName() + "\n" + tempc.getAddress() + "\n\nPublication Information\t\t\tSubscription Period\t\t\tPrice\n");
+				w.write("\r\n\r\nBill/Ship To: \r\n" + tempc.getFullName() + "\r\n" + tempc.getAddress() + "\r\n\r\nPublication Information\t\t\tSubscription Period\t\t\tPrice\r\n");
 				totalDue = 0;
-				while(s.next()){
-					subscriptions temps = new subscriptions(cn, s.getInt("SubscriptionID"));
-					publication tempp = temps.getPubInfo();
-					w.write(tempp.getBillTitle() + "\t\t\t" + temps.getPeriod() + "\t\t\t" + fmt.format(tempp.getPrice()) + "\n");
-					totalDue +=tempp.getPrice();
-				}
-				w.write("\n\n\n\tTOTAL DUE: " + fmt.format(totalDue));
+//				while(s.next()){
+//					subscriptions temps = new subscriptions(cn, s.getInt("SubscriptionID"));
+//					publication tempp = temps.getPubInfo();
+//					w.write(tempp.getBillTitle() + "\t\t\t" + temps.getPeriod() + "\t\t\t" + fmt.format(tempp.getPrice()) + "\r\n");
+//					totalDue +=tempp.getPrice();
+//				}
+				w.write("\r\n\r\n\r\n\tTOTAL DUE: " + fmt.format(totalDue));
 				w.close();
 			}
 		}
@@ -57,8 +57,20 @@ public class print {
 		}
 	}
 	
+	public void tester(){
+		File f = new File(filePath, "1234.txt");
+		try{
+			BufferedWriter w = new BufferedWriter(new FileWriter(f));
+			w.write(billHeader());
+			w.close();
+		}
+		catch(Exception e){
+			System.out.println("FAIL");
+		}
+	}
+	
 	private String billHeader(){
 		u = new user(cn);
-		return u.getCompanyName() + "\n" + u.getAddress() + "\nPhone: " + u.getCSPhone() + "\nE-mail: " +u.getCSEmail() + "\n\nINVOICE\t\t#";
+		return u.getCompanyName() + "\r\n" + u.getAddress() + "\r\nPhone: " + u.getCSPhone() + "\r\nE-mail: " +u.getCSEmail() + "\r\n\r\nINVOICE\t\t#";
 	}
 }

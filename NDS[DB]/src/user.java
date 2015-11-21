@@ -29,13 +29,15 @@ public class user {
 		CSPhone = csp;
 		CSEmail = cse;
 		filePath = fP+"/PaperBoyPrints";
-		if(!cn.userSetProfile(n, cN, p, a, c, s, z, e, csp, cse, fP))
+		if(!cn.userSetProfile(n, cN, p, a, c, s, z, e, csp, cse, filePath)){
 			name = null;
+			System.out.println("FAILED");
+		}
 		try{
 			Files.createDirectory(Paths.get(filePath));
 		}
 		catch(Exception E){
-			name = null;
+			
 		}
 	}
 	
