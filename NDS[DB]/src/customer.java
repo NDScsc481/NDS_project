@@ -190,7 +190,18 @@ public class customer{
 		phoneNum = pN;
 		return cn.modCustomerInfo(CID, "Phone", pN);
 	}
-	
+	public String getFirstName(){
+		return firstName;
+	}
+	public String getLastName(){
+		return lastName;
+	}
+	public String getAddress(){
+		return addrLineOne;
+	}
+	public int getCustID(){
+		return CID;
+	}
 	public boolean setStatus(String st){
 		if(status.equals(st)){
 			return false;
@@ -200,4 +211,11 @@ public class customer{
 			return cn.modCustomerInfo(CID, "Status", st);
 		}
 	}
-}
+}/*private String firstName;
+	private String lastName;
+	private String addrLineOne;
+	private String addrLineTwo;
+	private String city;
+	private String state;
+	private String zip;
+	private String phoneNum;*/

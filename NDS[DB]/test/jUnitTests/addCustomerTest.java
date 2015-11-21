@@ -73,7 +73,7 @@ public class addCustomerTest {
 			e.printStackTrace();
 		}		
 
-		assertThat(ash.)
+		assertThat(ash.g
 		assertThat(charlie.getFirstName(), is("Charlie"));
 		assertThat(charlie.getLastName(), is("Brown"));
 		assertThat(charlie.getAge(), is(42));
