@@ -56,7 +56,7 @@ public class customer{
 	}
 	
 	//select customer with specified customer ID
-	public customer (connect con, int ID){
+	public customer(connect con, int ID){
 		cn = con;
 		ResultSet r = cn.searchCustomer(ID, "", "");
 		ResultSet subs = cn.getSubscriptions(ID);
@@ -75,9 +75,9 @@ public class customer{
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 			}
-			while(subs.next()){
-				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
-			}
+//			while(subs.next()){
+//				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
+//			}
 			while(points.next()){
 				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
 			}
@@ -154,5 +154,22 @@ public class customer{
 			status = st;
 			return cn.modCustomerInfo(CID, "Status", st);
 		}
+	}
+	
+	public String getFullName(){
+		return firstName + " " + lastName;
+	}
+	
+	public String getAddress(){
+		if(addrLineTwo!=null){
+			return addrLineOne + "\n" + addrLineTwo + "\n" + city + ", " + state + " " + zip;
+		}
+		else{
+			return addrLineOne + "\n" + city + ", " + state + " " + zip;
+		}
+	}
+	
+	public String getCID(){
+		return String.valueOf(CID);
 	}
 }

@@ -18,10 +18,10 @@ public class publication {
 	private int PID;
 	private String status;
 	protected String firstIssuedOn;
-	private connect cn = new connect();
+	private connect cn;
 	NumberFormat fmatr = new DecimalFormat("$#.##"); 
-	public publication(String tit, String gen, double prc, String freq, boolean[] weekdays){
-		
+	public publication(connect con, String tit, String gen, double prc, String freq, boolean[] weekdays){
+		cn = con;
 		int intWeekday =0;
 		if(freq =="daily")
 			firstIssuedOn = DateTime.getFirstInstanceOf(intWeekday);
@@ -43,7 +43,8 @@ public class publication {
 		frequency = freq;
 	}
 	
-	public publication(int ID){
+	public publication(connect con, int ID){
+		cn = con;
 		ResultSet r = cn.searchPublication(ID, "");
 		try{
 			while(r.next()){
@@ -105,5 +106,13 @@ public class publication {
 			status = st;
 			return cn.modPublicationInfo(PID, st);
 		}
+	}
+	
+	public double getPrice(){
+		return price;
+	}
+	
+	public String getBillTitle(){
+		return title + " - " +frequency;
 	}
 }

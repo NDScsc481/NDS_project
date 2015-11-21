@@ -54,6 +54,18 @@ public class connect{
 		}
 	}
 	
+	public ResultSet getOneSubscription(int SID){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select * from subscriptions where ItemID = " + SID);
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public void addCustomer(String fN, String lN,  String addLn1, String addLn2, String c, String st, String z,String pN){
 		String add;
 		try{
@@ -264,9 +276,9 @@ public class connect{
 		}
 	}
 	
-	public boolean userSetProfile(String N, String P, String Addr, String C, String S, String Z, String E, String FP){
+	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP){
 		try{
-			stmt.executeUpdate("insert into userprofile (UserID, Name, Password, Address, City, State, Zip, Email, FilePath) values (1, \"" + N + "\", \"" + P + "\", " + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + FP + "\")");
+			stmt.executeUpdate("insert into userprofile (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath) values (1, \"" + N + "\", \"" + cN + "\", \"" + P + "\", " + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP + "\", \"" + CSE + "\", \"" + FP + "\")");
 			return true;
 		}
 		catch(Exception e){
@@ -278,6 +290,18 @@ public class connect{
 		ResultSet rs;
 		try{
 			rs = stmt.executeQuery("select * from userprofile where UserID = 1");
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResultSet userGetfilePath(){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select FilePath from userprofile where UserID = 1");
 			return rs;
 		}
 		catch(Exception e){
