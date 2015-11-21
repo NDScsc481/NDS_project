@@ -264,6 +264,38 @@ public class connect{
 		}
 	}
 	
+	public boolean userSetProfile(String N, String P, String Addr, String C, String S, String Z, String E, String FP){
+		try{
+			stmt.executeUpdate("insert into userprofile (UserID, Name, Password, Address, City, State, Zip, Email, FilePath) values (1, \"" + N + "\", \"" + P + "\", " + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + FP + "\")");
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	
+	public ResultSet userGetProfile(){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select * from userprofile where UserID = 1");
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean userModData(String type, String to){
+		try{
+			stmt.executeUpdate("update userprofile set " + type + " = \"" + to + "\" where UserID = 1");
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	
 	public void disconnect(){
 		try{
 			con.close();

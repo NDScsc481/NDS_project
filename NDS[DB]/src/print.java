@@ -7,10 +7,10 @@ public class print {
 	//daily summary: 
 	//daily route: list customer with address,
 	public void setDirLoc(connect cn, String newLoc){
-		//everyone loves me
+		
 	}
 	
-	public void getDirLoc(connect cn){
+	private void getDirLoc(connect cn){
 		
 	}
 	
@@ -18,7 +18,7 @@ public class print {
 		ResultSet r = cn.getAll();
 		try{
 			while(r.next()){
-				File file = new File("C:\\test.txt");
+				File file = new File("C:...Desktop\\test.txt");
 				file.getParentFile().mkdir();
 				file.createNewFile();
 			}

@@ -15,11 +15,12 @@ public class customer{
 	private String status;
 	private subscriptions mySubs;
 	private LatLng myPoints;
-	private connect cn = new connect();
+	private connect cn;
 	
 	
 	//create new customer AddTypeOne
-	public customer(String fN, String lN, String pN, String addLn1, String c, String st, String z){
+	public customer(connect con, String fN, String lN, String pN, String addLn1, String c, String st, String z){
+		cn=con;
 		cn.addCustomer(fN, lN, pN, addLn1, "", c, st, z);
 
 		CID = cn.getCustomerID(pN);
@@ -37,7 +38,8 @@ public class customer{
 	}
 	
 	//create new customer AddTypeTwo
-	public customer(String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN){
+	public customer(connect con, String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN){
+		cn = con;
 		cn.addCustomer(fN, lN, addLn1, addLn2, c, st, z, pN);
 		CID = cn.getCustomerID(pN);
 		myPoints = new LatLng(cn, CID);
@@ -54,7 +56,8 @@ public class customer{
 	}
 	
 	//select customer with specified customer ID
-	public customer (int ID){
+	public customer (connect con, int ID){
+		cn = con;
 		ResultSet r = cn.searchCustomer(ID, "", "");
 		ResultSet subs = cn.getSubscriptions(ID);
 		ResultSet points = cn.getLatLngValues(ID);
