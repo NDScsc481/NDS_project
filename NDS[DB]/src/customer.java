@@ -17,12 +17,22 @@ public class customer{
 	private String status;
 	private subscriptions mySubs;
 	private LatLng myPoints;
+<<<<<<< HEAD
 	private connect cn = new connect();
 	private boolean encapsulation= false;
 	
 	//create new customer AddTypeOne
 	public customer(String fN, String lN,  String addLn1, String c, String st, String z,String pN){
 		cn.addCustomer(fN, lN, addLn1, "", c, st, z,pN);
+=======
+	private connect cn;
+	
+	
+	//create new customer AddTypeOne
+	public customer(connect con, String fN, String lN, String pN, String addLn1, String c, String st, String z){
+		cn=con;
+		cn.addCustomer(fN, lN, pN, addLn1, "", c, st, z);
+>>>>>>> feb08a6a33c4a50fc4c53017c00c3cc054a73235
 
 		CID = cn.getCustomerID(pN);
 		myPoints = new LatLng(cn, CID);
@@ -38,7 +48,8 @@ public class customer{
 	}
 	
 	//create new customer AddTypeTwo
-	public customer(String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN){
+	public customer(connect con, String fN, String lN, String addLn1, String addLn2, String c, String st, String z, String pN){
+		cn = con;
 		cn.addCustomer(fN, lN, addLn1, addLn2, c, st, z, pN);
 		CID = cn.getCustomerID(pN);
 		myPoints = new LatLng(cn, CID);
@@ -94,10 +105,10 @@ public class customer{
 		zip=z;
 	}
 	//select customer with specified customer ID
-	public customer (int ID){
+	public customer(connect con, int ID){
+		cn = con;
 		ResultSet r = cn.searchCustomer(ID, "", "");
-		ResultSet subs = cn.getSubscriptions(ID);
-		ResultSet points = cn.getLatLngValues(ID);
+//		ResultSet points = cn.getLatLngValues(ID);
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
@@ -105,19 +116,18 @@ public class customer{
 				firstName = r.getString("FirstName");
 				lastName = r.getString("LastName");
 				addrLineOne = r.getString("Address");
-				if((addrLineTwo = r.getString("AddressLineTwo")).length()==0)
-					addrLineTwo = null;
+				addrLineTwo = r.getString("AddressLineTwo");
 				city = r.getString("City");
 				state = r.getString("State");
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 			}
-			while(subs.next()){
-				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
-			}
-			while(points.next()){
-				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
-			}
+//			while(subs.next()){
+//				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
+//			}
+//			while(points.next()){
+//				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
+//			}
 		}
 		catch(Exception e){
 			CID = 0;
@@ -209,8 +219,22 @@ public class customer{
 		else{
 			status = st;
 			return cn.modCustomerInfo(CID, "Status", st);
+		}//gg
+	}
+	
+	public String getFullName(){
+		return firstName + " " + lastName;
+	}
+	
+	public String getAddress(){
+		if(addrLineTwo!=null){
+			return addrLineOne + "\n" + addrLineTwo + "\n" + city + ", " + state + " " + zip;
+		}
+		else{
+			return addrLineOne + "\n" + city + ", " + state + " " + zip;
 		}
 	}
+<<<<<<< HEAD
 }/*private String firstName;
 	private String lastName;
 	private String addrLineOne;
@@ -219,3 +243,10 @@ public class customer{
 	private String state;
 	private String zip;
 	private String phoneNum;*/
+=======
+	
+	public int getCID(){
+		return CID;
+	}
+}
+>>>>>>> feb08a6a33c4a50fc4c53017c00c3cc054a73235

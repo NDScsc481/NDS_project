@@ -14,7 +14,7 @@ public class connect{
 	 **/
 	public connect(){
 		try{
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3308/saturdays_db", "root", "12345");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
 			stmt = con.createStatement();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -90,6 +90,7 @@ public class connect{
 			return null;
 		}
 	}
+<<<<<<< HEAD
 	/**
 	 * Adds a new customer with the given descriptive information.
 	 * 
@@ -102,6 +103,21 @@ public class connect{
 	 * @param st		The customer's state
 	 * @param z			The customer's zip code
 	 **/
+=======
+	
+	public ResultSet getOneSubscription(int SID){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select * from subscriptions where ItemID = " + SID);
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+>>>>>>> feb08a6a33c4a50fc4c53017c00c3cc054a73235
 	public void addCustomer(String fN, String lN,  String addLn1, String addLn2, String c, String st, String z,String pN){
 		String add;
 		try{
@@ -404,10 +420,58 @@ public class connect{
 			return false;
 		}
 	}
+<<<<<<< HEAD
 	/**
 	 * Closes the connection created in this class.
 	 *
 	 **/
+=======
+	
+	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP){
+		try{
+			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath) values (1, \"" + N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP + "\", \"" + CSE + "\", \"" + FP + "\")");
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	
+	public ResultSet userGetProfile(){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select * from userprofile where UserID = 1");
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResultSet userGetfilePath(){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select FilePath from userprofile where UserID = 1");
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean userModData(String type, String to){
+		try{
+			stmt.executeUpdate("update userprofile set " + type + " = \"" + to + "\" where UserID = 1");
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	
+>>>>>>> feb08a6a33c4a50fc4c53017c00c3cc054a73235
 	public void disconnect(){
 		try{
 			con.close();
