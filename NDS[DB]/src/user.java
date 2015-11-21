@@ -58,7 +58,8 @@ public class user {
 				CSPhone = r.getString("CSPhone");
 				CSEmail = r.getString("CSEmail");
 				filePath = r.getString("filePath");
-			}		
+			}
+			r.close();
 		}
 		catch(Exception e){
 			name = null;

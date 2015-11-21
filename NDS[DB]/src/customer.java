@@ -73,9 +73,11 @@ public class customer{
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 			}
+			r.close();
 //			while(subs.next()){
 //				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
 //			}
+//			ResultSet points = cn.getLatLngValues(ID);
 //			while(points.next()){
 //				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
 //			}
@@ -160,10 +162,10 @@ public class customer{
 	
 	public String getAddress(){
 		if(addrLineTwo!=null){
-			return addrLineOne + "\n" + addrLineTwo + "\n" + city + ", " + state + " " + zip;
+			return addrLineOne + "\r\n" + addrLineTwo + "\r\n" + city + ", " + state + " " + zip;
 		}
 		else{
-			return addrLineOne + "\n" + city + ", " + state + " " + zip;
+			return addrLineOne + "\r\n" + city + ", " + state + " " + zip;
 		}
 	}
 	

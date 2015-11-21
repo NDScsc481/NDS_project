@@ -3,11 +3,15 @@ import java.util.Date;
 public class connect{
 	private Connection con;
 	private Statement stmt;
+	private Statement stmt1;
+	private Statement stmt2;
 	
 	public connect(){
 		try{
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
 			stmt = con.createStatement();
+			stmt1 = con.createStatement();
+			stmt2 = con.createStatement();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -16,6 +20,7 @@ public class connect{
 	public Connection getConnection(){
 		return con;
 	}
+	
 	/*
 	 * add subscriptions now additionally needs two more parameters String start and String end (strings in form "yyyy-MM-dd")
 	 * */
@@ -43,10 +48,10 @@ public class connect{
 	}
 	
 	public ResultSet getSubscriptions(int CID){
-		ResultSet rs;
+		ResultSet subs;
 		try{
-			rs = stmt.executeQuery("select * from subscriptions where CustomerID = " + CID);
-			return rs;
+			subs = stmt.executeQuery("select * from subscriptions where CustomerID = " + CID);
+			return subs;
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -57,7 +62,7 @@ public class connect{
 	public ResultSet getOneSubscription(int SID){
 		ResultSet rs;
 		try{
-			rs = stmt.executeQuery("select * from subscriptions where ItemID = " + SID);
+			rs = stmt2.executeQuery("select * from subscriptions where ItemID = " + SID);
 			return rs;
 		}
 		catch(Exception e){
@@ -143,7 +148,7 @@ public class connect{
 		public ResultSet getAll(){
 			ResultSet rs;
 			try{
-				rs = stmt.executeQuery("select * from customers where Status =\"" + "ACTIVE" + "\""  );
+				rs = stmt1.executeQuery("select * from customers where Status =\"" + "ACTIVE" + "\""  );
 				return rs;
 			}
 			catch(Exception e){
@@ -243,10 +248,10 @@ public class connect{
 		ResultSet rs;
 		try{
 			if(PID!=0){
-				rs = stmt.executeQuery("select * from publications where PublicationID = " + PID);
+				rs = stmt2.executeQuery("select * from publications where PublicationID = " + PID);
 			}
 			else{
-				rs = stmt.executeQuery("select * from publications where PublicationName = \"" + t + "\"");
+				rs = stmt2.executeQuery("select * from publications where PublicationName = \"" + t + "\"");
 			}
 			return rs;
 		}
@@ -322,6 +327,9 @@ public class connect{
 	
 	public void disconnect(){
 		try{
+			stmt.close();
+			stmt1.close();
+			stmt2.close();
 			con.close();
 		}catch(Exception e){
 			e.printStackTrace();

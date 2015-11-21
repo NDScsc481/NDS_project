@@ -9,6 +9,8 @@ public class subscriptions{
 	private int CID;
 	private int SID;
 	private int PID;//=0;
+	String stDate;
+	String endDt;
 	protected static Date startDate;
 	protected static Date endDate; 
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -30,11 +32,12 @@ public class subscriptions{
 		try{
 			while(r.next()){
 				CID = r.getInt("CustomerID");
-				SID = r.getInt("ItenID");
+				SID = r.getInt("ItemID");
 				PID = r.getInt("PublicationID");
-				startDate = DateTime.strToDate("StartDate");
-				endDate = DateTime.strToDate("EndDate");
+				startDate = DateTime.strToDate(r.getString("StartDate"));
+				endDate = DateTime.strToDate(r.getString("EndDate"));
 			}
+			r.close();
 		}
 		catch(Exception e){
 			SID = 0;
@@ -60,7 +63,7 @@ public class subscriptions{
 	}
 	
 	public String getPeriod(){
-		return getStartDate() + " - " + getEndDate();
+		return getStartDate() + " to " + getEndDate();
 	}
 }
 

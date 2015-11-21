@@ -56,6 +56,7 @@ public class publication {
 				genre = r.getString("Genre");
 				firstIssuedOn = r.getString("IssueDate");
 			}
+			r.close();
 		}
 		catch(Exception e){
 			PID = 0;
