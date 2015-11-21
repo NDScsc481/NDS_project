@@ -151,7 +151,7 @@ public class customer{
 		else{
 			status = st;
 			return cn.modCustomerInfo(CID, "Status", st);
-		}
+		}//gg
 	}
 	
 	public String getFullName(){
