@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 public class generateCoordinatesList {
 	static LinkedList<LatLng> latLngList = new LinkedList<LatLng>();
-	public static LinkedList<LatLng> generateList(LinkedList<customer> customerList){
+	public static LinkedList<LatLng> generateList(LinkedList<Integer> customerList){
 		LatLng coordinates;
 		connect cn = new connect();
 		ResultSet rsCoor;
@@ -20,7 +20,7 @@ public class generateCoordinatesList {
 //			e.printStackTrace();
 //		}
 		for(int i =0; i<customerList.size(); i++){
-			int ID = customerList.get(i).CID;
+			int ID = customerList.get(i);
 		   	rsCoor = cn.searchCustomerCoordinates(ID);
 		   	try{
 		   		if(rsCoor.next()){
