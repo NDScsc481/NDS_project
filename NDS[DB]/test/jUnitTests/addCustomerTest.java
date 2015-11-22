@@ -1,16 +1,23 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import org.dbunit.DatabaseTestCase;
+import org.dbunit.database.DatabaseConnection;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.junit.Test;
-import java.customer;
+import code.customer;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+
+import code.connect;
 import java.sql.*;
-
-
+import static org.junit.Assert.assertThat;
 import static org.h2.engine.Constants.UTF8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 import java.io.File;
 
@@ -18,80 +25,74 @@ import javax.sql.DataSource;
 
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.jdbcx.JdbcDataSource;
 import org.h2.tools.RunScript;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import java.connect;
 
-public class addCustomerTest {
+
+
+/** * * @author Munna * Test class for SalaryCalcutation using DBUNIT * */
+public class addCustomerTest extends DatabaseTestCase {
 	connect cn = new connect();
-	static final String JDBC_DRIVER = org.h2.Driver.class.getName();
-	private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
-	private static final String USER = "sa";
-	private static final String PASSWORD = "";
-	
-	@BeforeClass
-	public static void createSchema() throws Exception {
-		RunScript.execute(JDBC_URL, USER, PASSWORD, "schema.sql", UTF8, false);
-	}
 
-	@Before
-	public void importDataSet() throws Exception {
-		IDataSet dataSet = readDataSet();
-		cleanlyInsert(dataSet);
+	public static final String TABLE_LOGIN = "salarydetails";
+	private FlatXmlDataSet loadedDataSet;
+	private customer customer;
+	private CustomerTests CustomerTests;
+	private Connection jdbcConnection;
+
+	/** * Provide a connection to the database * @return IDatabaseConnection */
+	protected IDatabaseConnection getConnection() throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		jdbcConnection = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3308/saturdays_db", "root", "12345");
+		return new DatabaseConnection(jdbcConnection);
 	}
 
 	private IDataSet readDataSet() throws Exception {
-		return new FlatXmlDataSetBuilder().build(new File("dataset.xml"));
+		loadedDataSet = new FlatXmlDataSetBuilder().build(new File("customerX.xml"));
+		return loadedDataSet;
 	}
 
-	private void cleanlyInsert(IDataSet dataSet) throws Exception {
-		IDatabaseTester databaseTester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, USER, PASSWORD);
-		databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
-		databaseTester.setDataSet(dataSet);
-		databaseTester.onSetup();
-	}
+	/** * Load the data which will be inserted for the test * @return IDataSet */
+	
 
+	/** * Test case for calculator * positive scenario---Valid Employee */
 	@Test
-	public void findsAndReadsExistingPersonByFirstName() throws Exception {
-		customer cust = new customer((dataSource());
-		ResultSet ashley = cn.searchCustomer(0, "Ashley", "");
-		customer ash;
+	public void testSearchCustomer() throws SQLException {
+		ResultSet rs = CustomerTests.searchCustomerTest(0, "Ashley", "");
+		
 		try{
-			while(ashley.next()){
-				int id = ashley.getInt("CustomerID");
-				 ash = new customer(id);
-
+			while(rs.next()){
+				int id = rs.getInt("CustomerID");
+				 customer = new customer(id);
 			}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}		
-
-		assertThat(ash.g
-		assertThat(charlie.getFirstName(), is("Charlie"));
-		assertThat(charlie.getLastName(), is("Brown"));
-		assertThat(charlie.getAge(), is(42));
+		}catch(Exception e){
+			e.printStackTrace();}		
+		assertThat(customer.getFirstName(), is("Ashely"));
+		assertThat(customer.getLastName(), is("Dorris"));
+		assertThat(customer.getAddress(), is("607 Robert Ave"));
 	}
-
+	/** *Test case for calculator *negative scenario---InValid Employee */
 	@Test
-	public void returnsNullWhenPersonCannotBeFoundByFirstName() throws Exception {
-		PersonRepository repository = new PersonRepository(dataSource());
-		Person person = repository.findPersonByFirstName("iDoNotExist");
-
-		assertThat(person, is(nullValue()));
+	public void testSearchCustomerNeg() throws SQLException {
+		ResultSet rs = cn.searchCustomer(0, "Charlie", "");
+		try{
+			while(rs.next()){
+				int id = rs.getInt("CustomerID");
+				 customer = new customer(id);
+			}
+		}catch(Exception e){
+			e.printStackTrace();}		
+		assertThat(customer.getFirstName(), is("Charlie"));
+		
 	}
 
-	private DataSource dataSource() {
-		JdbcDataSource dataSource = new JdbcDataSource();
-		dataSource.setURL(JDBC_URL);
-		dataSource.setUser(USER);
-		dataSource.setPassword(PASSWORD);
-		return dataSource;
+	@Override
+	protected IDataSet getDataSet() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

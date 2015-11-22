@@ -19,42 +19,36 @@ public class Main {
 	public static void main(String[] args) {
 		connect cn = new connect();
 		
-		LinkedList<customer> custList = new LinkedList<customer>();
+		LinkedList<Integer> custIDList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
+
 		LinkedList<customer> sortedCustList = new LinkedList<customer>();
 
-		custList = PullTodaysCustomerDeliveries.generateTodaysPublicationList();
-		System.out.println("unsorted list size " + custList.size());
-		for(int j =0; j<custList.size();j++){
-			System.out.println(custList.get(j));
-			
-		}
-		LinkedList<LatLng> latLngList = new LinkedList<LatLng>();
-		latLngList = generateCoordinatesList.generateList(custList);
-		for(int j =0; j<custList.size();j++){
-			int custID = latLngList.get(j).CID;
-			for(int i =0; i< latLngList.size(); i++){
-				//int pubID = custList.get(i).PID;
-				//int pubID2 = custList.get(i+1).PID;
-				//System.out.println("pubId: "+ custList.get(i).PID+ " pubID2: "+ pubID2);
-
-				if(custList.get(i).CID == custID ){
-					sortedCustList.add(custList.get(i));
-					 break;
-					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
-
-				}
-			}
-		}
-		System.out.println("LatLanglist: " + latLngList.size());
-		for(int p =0; p< latLngList.size(); p++){
-			System.out.println(latLngList.get(p));
-		}
-		System.out.println("Sorted cust list size: " + sortedCustList.size());
-		for(int p =0; p< sortedCustList.size(); p++){
-			System.out.println(sortedCustList.get(p));
-		}
-//		publication todaysPub;
-//		try{
+		LinkedList<LatLng> latLngList = generateCoordinatesList.generateList(custIDList);
+//		for(int j =0; j<custList.size();j++){
+//			int custID = latLngList.get(j).CID;
+//			for(int i =0; i< latLngList.size(); i++){
+//				//int pubID = custList.get(i).PID;
+//				//int pubID2 = custList.get(i+1).PID;
+//				//System.out.println("pubId: "+ custList.get(i).PID+ " pubID2: "+ pubID2);
+//
+//				if(custList.get(i).CID == custID ){
+//					sortedCustList.add(custList.get(i));
+//					 break;
+//					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
+//
+//				}
+//			}
+//		}
+//		System.out.println("LatLanglist: " + latLngList.size());
+//		for(int p =0; p< latLngList.size(); p++){
+//			System.out.println(latLngList.get(p));
+//		}
+//		System.out.println("Sorted cust list size: " + sortedCustList.size());
+//		for(int p =0; p< sortedCustList.size(); p++){
+//			System.out.println(sortedCustList.get(p));
+//		}
+////		publication todaysPub;
+////		try{
 //			while(rs.next()){
 //			String issueDate = rs.getString("IssueDate");
 //			String freq = rs.getString("Frequency");
