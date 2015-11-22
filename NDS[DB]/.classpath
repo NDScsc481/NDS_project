@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Dianne/git/junit-4.3.jar (1)/junit-4.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Dianne/git/junit.jar (1)/junit.jar"/>
 	<classpathentry kind="lib" path="C:/git/mysql-connector-java-5.1.37/mysql-connector-java-5.1.37-bin.jar"/>
@@ -13,5 +14,8 @@
 	<classpathentry kind="lib" path="C:/Users/Dianne/Downloads/maven-dbunit-plugin-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Dianne/Downloads/h2.jar/h2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Dianne/Downloads/dbunit-2.4.8.jar/dbunit-2.4.8.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/Lee/Desktop/NDS/mysql-connector-java-5.1.37/mysql-connector-java-5.1.37/mysql-connector-java-5.1.37-bin.jar"/>
+>>>>>>> feb08a6a33c4a50fc4c53017c00c3cc054a73235
 	<classpathentry kind="output" path="bin"/>
 </classpath>
