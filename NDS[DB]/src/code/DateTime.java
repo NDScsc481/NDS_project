@@ -196,12 +196,24 @@ public class DateTime {
 		}
 	}
 	
+	//returns the date to be used for invoice numbers which are in the form yyyy-mm-dd-id
 	public static String getDateNameFile(){
 		return dateToStr(getTimeNow());
 	}
 	
+	//returns year and month and day to add to filePath for appropriate directory creation
 	public static String getDayFilePath(){
 		return String.format("%1$tY/%1$tB/%1$te-%1$ta", Calendar.getInstance());
+	}
+	
+	//returns weekday 1-7(Su-Sa)
+	public static int getWeekday(){
+		return (Calendar.getInstance()).get(Calendar.DAY_OF_WEEK);
+	}
+	
+	//returns day of month starting at 1
+	public static int getMonthday(){
+		return (Calendar.getInstance()).get(Calendar.DAY_OF_MONTH);
 	}
 	
 //	public Calendar getDayFromIntValue(int dayNum){
