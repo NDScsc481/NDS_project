@@ -173,25 +173,25 @@ public class DateTime {
 		 return date.getYear() + "-"+ date.getMonthValue() + "-"+ dayOfMonth;
 	}
 	/*
-	 * Provides the month previous to the current month to be displayed on the bill that is being sent.
+	 * Provides the month previous to the current month and the corresponding year to be displayed on the bill that is being sent.
 	 * 
 	 * @return previous month
 	 */
-	public static String getLastMonth(){
+	public static String getBillPeriod(){
 		Calendar myCal = Calendar.getInstance();
 		switch(myCal.MONTH){
-		case 1: return "January";
-		case 2: return "February";
-		case 3: return "March";
-		case 4: return "April";
-		case 5: return "May";
-		case 6: return "June";
-		case 7: return "July";
-		case 8: return "August";
-		case 9: return "September";
-		case 10: return "October";
-		case 11: return "November";
-		case 0: return "December";
+		case 1: return "January " + myCal.YEAR;
+		case 2: return "February " + myCal.YEAR;
+		case 3: return "March " + myCal.YEAR;
+		case 4: return "April " + myCal.YEAR;
+		case 5: return "May " + myCal.YEAR;
+		case 6: return "June " + myCal.YEAR;
+		case 7: return "July " + myCal.YEAR;
+		case 8: return "August " + myCal.YEAR;
+		case 9: return "September " + myCal.YEAR;
+		case 10: return "October " + myCal.YEAR;
+		case 11: return "November " + myCal.YEAR;
+		case 0: return "December " + (myCal.YEAR - 1);
 		default: return null;
 		}
 	}
@@ -199,6 +199,11 @@ public class DateTime {
 	public static String getDateNameFile(){
 		return dateToStr(getTimeNow());
 	}
+	
+	public static String getDayFilePath(){
+		return String.format("%1$tY/%1$tB/%1$te-%1$ta", Calendar.getInstance());
+	}
+	
 //	public Calendar getDayFromIntValue(int dayNum){
 //		Calendar weekDay = Calendar.getInstance();
 //		switch(dayNum){

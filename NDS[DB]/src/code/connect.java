@@ -1,6 +1,6 @@
-
 import java.sql.*;
 import java.util.Date;
+
 /**
  * Establishes connection between the database and classes. May add, view, and modify fields in the database.
  *
@@ -16,7 +16,7 @@ public class connect{
 	
 	public connect(){
 		try{
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3308/saturdays_db", "root", "12345");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
 			stmt = con.createStatement();
 			stmt1 = con.createStatement();
 			stmt2 = con.createStatement();
@@ -28,6 +28,7 @@ public class connect{
 	public Connection getConnection(){
 		return con;
 	}
+	
 	/*
 	 * add subscriptions now additionally needs two more parameters String start and String end (strings in form "yyyy-MM-dd")
 	 * */
@@ -39,6 +40,7 @@ public class connect{
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Returns the SubscriptionID that matches the given CustomerID in the database.
 	 *
@@ -101,6 +103,7 @@ public class connect{
 			return null;
 		}
 	}
+	
 	/**
 	 * Adds a new customer with the given descriptive information.
 	 * 
@@ -128,6 +131,7 @@ public class connect{
 		}
 		catch(Exception e){}
 	}
+	
 	/**
 	 * function populates the coordinates database with generated CID from customer database
 	 * lat and long.
@@ -167,85 +171,89 @@ public class connect{
 			return null;
 		}
 	}
+	
 	public ResultSet searchCustomerCoordinates(int CID){
-			ResultSet rs;
-			try{
-				if(CID!=0){
-					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID);
-				}
+		ResultSet rs;
+		try{
+			if(CID!=0){
+				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID);
+			}
 				
-				else {
-					rs = null;
-				}
-				return rs;
+			else {
+				rs = null;
 			}
-			catch(Exception e){
+			return rs;
+		}
+		catch(Exception e){
 				e.printStackTrace();
 				return null;
-			}
 		}
-		/*
-		 * Retrieves all customers who have the status == "ACTIVE"
-		 */
+	}
+	
+	/*
+	 * Retrieves all customers who have the status == "ACTIVE"
+	 */
 	public ResultSet getAllCustomers(){
-			ResultSet rs;
-			try{
-				rs = stmt.executeQuery("select * from customers where Status =\"" + "ACTIVE" + "\""  );
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select * from customers where Status =\"" + "ACTIVE" + "\""  );
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public ResultSet getAllPublications(){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select * from coor_cust_pub_scrip where PublicationStatus =\"" + "ACTIVE" + "\""  );
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+		
+	/**
+	 * Returns the ResultSet containing the set of customers that match the given information. 
+	 * This method is to accept a CustomerID which is an integer
+	 * One customer with the given ID will be in the ResultSet. 
+	 *
+	 * @return ResultSet
+	 * @param CID	The int that identifies the customer to search for
+	 **/
+	public ResultSet searchForCustomerInView(int CID, int PID){
+		ResultSet rs;
+		try{
+			if(PID == 0){
+				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID);
 				return rs;
 			}
-			catch(Exception e){
-				e.printStackTrace();
-				return null;
-			}
-		}
-		public ResultSet getAllPublications(){
-			ResultSet rs;
-			try{
-				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where PublicationStatus =\"" + "ACTIVE" + "\""  );
+			else{
+				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID +" AND PublicationID = "+ PID);
 				return rs;
-			}
-			catch(Exception e){
+			}		
+		}
+		catch(Exception e){
 				e.printStackTrace();
 				return null;
-			}
 		}
-		/**
-		 * Returns the ResultSet containing the set of customers that match the given information. 
-		 * This method is to accept a CustomerID which is an integer
-		 * One customer with the given ID will be in the ResultSet. 
-		 *
-		 * @return ResultSet
-		 * @param CID	The int that identifies the customer to search for
-		 **/
-		public ResultSet searchForCustomerInView(int CID, int PID){
-			ResultSet rs;
-			try{
-				if(PID == 0){
-					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID);
-					return rs;
-				}else{
-					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID +" AND PublicationID = "+ PID);
-					return rs;
-				}
-					
-			}
-			catch(Exception e){
-					e.printStackTrace();
-					return null;
-			}
-		}
-		/**
-		 * Returns the ResultSet containing the set of customers that match the given information. This method is to accept either a CustomerID or a name. 
-		 * If the CustomerID is provided, one customer with the given ID will be in the ResultSet. 
-		 * If a name (first, last, or both) is provided, all customers that match the given information will be in the ResultSet.
-		 *
-		 * @return ResultSet
-		 * 
-		 * @param CID	The int that identifies the customer to search for
-		 * @param fN	The first name of the customer to search for
-		 * @param lN	The last name of the customer to search for
-		 **/
-		public ResultSet searchCustomer(int CID, String fN, String lN){
+	}
+		
+	/**
+	 * Returns the ResultSet containing the set of customers that match the given information. This method is to accept either a CustomerID or a name. 
+	 * If the CustomerID is provided, one customer with the given ID will be in the ResultSet. 
+	 * If a name (first, last, or both) is provided, all customers that match the given information will be in the ResultSet.
+	 *
+	 * @return ResultSet
+	 * 
+	 * @param CID	The int that identifies the customer to search for
+	 * @param fN	The first name of the customer to search for
+	 * @param lN	The last name of the customer to search for
+	 **/
+	public ResultSet searchCustomer(int CID, String fN, String lN){
 		ResultSet rs;
 		try{
 			if(CID!=0){
@@ -256,8 +264,7 @@ public class connect{
 					rs = stmt.executeQuery("select * from customers where LastName = \"" + lN + "\"");
 				else{
 					if(lN.length()>0)
-						rs = stmt.executeQuery("select * from customers where FirstName = \"" + fN + "\" and LastName = \"" + lN + "\"");
-					
+						rs = stmt.executeQuery("select * from customers where FirstName = \"" + fN + "\" and LastName = \"" + lN + "\"");					
 					else
 						rs = stmt.executeQuery("select * from customers where FirstName = \"" + fN + "\"");
 				}
@@ -269,16 +276,27 @@ public class connect{
 			return null;
 		}
 	}
-		
-		/**
-		 * Modifies a specified field of the customer's information. Returns whether the modification was successfully made.
-		 *
-		 * @return boolean
-		 * 
-		 * @param CID	The int that identifies the customer to be modified
-		 * @param type	The type of information to be modified (FirstName, LastName, Address, etc.)
-		 * @param to	The string that the specified information will be modified to
-		 **/
+	
+	//gets information required to print out bill; see customerpublications view in db
+	public ResultSet getBillInfo(){
+		try{
+			return stmt.executeQuery("select * from customerpublications order by CustomerID");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Modifies a specified field of the customer's information. Returns whether the modification was successfully made.
+	 *
+	 * @return boolean
+	 * 
+	 * @param CID	The int that identifies the customer to be modified
+	 * @param type	The type of information to be modified (FirstName, LastName, Address, etc.)
+	 * @param to	The string that the specified information will be modified to
+	 **/
 	public boolean modCustomerInfo(int CID, String type, String to){
 		try{
 			stmt.executeUpdate("update customers set " + type + " = \"" + to + "\" where CustomerID = " + CID);
@@ -288,6 +306,7 @@ public class connect{
 			return false;
 		}
 	}
+	
 	/**
 	 * Modifies all of the customer's information at once in the database. Returns whether the modification was successfully made.
 	 * Although it is not likely that all fields will be modified, any combination of them may be modified using this method.
@@ -336,6 +355,7 @@ public class connect{
 			return 0;
 		}
 	}
+	
 	/**
 	 * Adds a new publication to the database.
 	 * 
@@ -345,7 +365,6 @@ public class connect{
 	 * @param d		The array holding an indicator for whether the publication is delivered on each day of the week (Monday to Sunday)
 	 * @param f		The frequency of the publication (Daily, Weekly, Monthly)
 	 **/
-	
 	public void addPublication(String title, String genre, double price, String frequency, String issuedOn){
 		try{
 			stmt.executeUpdate("insert into publications (PublicationName, Genre, Price, Frequency, IssueDate) values (\"" + title + "\", \"" + genre + "\", \"" + price + "\", \"" + frequency + "\", \"" + issuedOn + "\")");
@@ -358,6 +377,7 @@ public class connect{
 			
 		}
 	}
+	
 	/**
 	 * Returns the publication ID based off of the title (unique).
 	 * This is necessary because the PunlicationID is automatically generated in the database.
@@ -406,6 +426,7 @@ public class connect{
 			return null;
 		}
 	}
+	
 	/**
 	 * Modifies publication price. Returns whether the modification was successfully made.
 	 *
@@ -441,6 +462,7 @@ public class connect{
 			return false;
 		}
 	}
+	
 	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP){
 		try{
 			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath) values (1, \"" + N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP + "\", \"" + CSE + "\", \"" + FP + "\")");

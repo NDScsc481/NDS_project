@@ -18,32 +18,33 @@ public class Main {
 
 	public static void main(String[] args) {
 		connect cn = new connect();
+		print p = new print(cn);
+//		p.printAllBills();
+//		LinkedList<customer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
+//
+//		LinkedList<customer> sortedCustList = new LinkedList<customer>();
+//		
+//		LinkedList<LatLng> latLngList = generateCoordinatesList.generateList(custList);
 		
-		LinkedList<customer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
-
-		LinkedList<customer> sortedCustList = new LinkedList<customer>();
-		
-		LinkedList<LatLng> latLngList = generateCoordinatesList.generateList(custList);
-		
-		for(int j =0; j<custList.size();j++){
-			int custID = latLngList.get(j).CID;
-			for(int i =0; i< latLngList.size(); i++){
-
-				if(custList.get(i).CID== custID ){
-					sortedCustList.add(custList.get(i));
-					 break;
-					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
-
-				}
-			}
-		}
+//		for(int j =0; j<custList.size();j++){
+//			int custID = latLngList.get(j).CID;
+//			for(int i =0; i< latLngList.size(); i++){
+//
+//				if(custList.get(i).CID== custID ){
+//					sortedCustList.add(custList.get(i));
+//					 break;
+//					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
+//
+//				}
+//			}
+//		}
 //		System.out.println("LatLanglist: " + latLngList.size());
 //		for(int p =0; p< latLngList.size(); p++){
 //			System.out.println(latLngList.get(p));
 //		}
-		System.out.println("Sorted cust list size: " + sortedCustList.size());
-		for(int p =0; p< sortedCustList.size(); p++){
-			System.out.println(sortedCustList.get(p));
+//		System.out.println("Sorted cust list size: " + sortedCustList.size());
+//		for(int p =0; p< sortedCustList.size(); p++){
+//			System.out.println(sortedCustList.get(p));
 //		}
 ////		publication todaysPub;
 ////		try{
@@ -165,7 +166,6 @@ public class Main {
 	//	public static void modifyCustomer(){
 //			
 //	
-}
 }
 
 
