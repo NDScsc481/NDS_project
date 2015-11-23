@@ -1,4 +1,4 @@
-package code;
+
 import java.sql.*;
 import java.util.Date;
 /**
@@ -8,24 +8,23 @@ import java.util.Date;
  * @version 1
  */
 public class connect{
+	//private static final String computeLatLng = null;
 	private Connection con;
 	private Statement stmt;
-	/**
-	 * Constructs the connection to the database.
-	 **/
+	private Statement stmt1;
+	private Statement stmt2;
+	
 	public connect(){
 		try{
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3308/saturdays_db", "root", "12345");
 			stmt = con.createStatement();
+			stmt1 = con.createStatement();
+			stmt2 = con.createStatement();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * Returns the connection.
-	 *
-	 * @return Connection
-	 **/
+	
 	public Connection getConnection(){
 		return con;
 	}
@@ -81,9 +80,20 @@ public class connect{
 	 **/
 	
 	public ResultSet getSubscriptions(int CID){
+		ResultSet subs;
+		try{
+			subs = stmt.executeQuery("select * from subscriptions where CustomerID = " + CID);
+			return subs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public ResultSet getOneSubscription(int SID){
 		ResultSet rs;
 		try{
-			rs = stmt.executeQuery("select * from subscriptions where CustomerID = " + CID);
+			rs = stmt2.executeQuery("select * from subscriptions where ItemID = " + SID);
 			return rs;
 		}
 		catch(Exception e){
@@ -132,7 +142,7 @@ public class connect{
 					while(rs.next()){
 						upsformattedAdd = rs.getString("Zip") +", "+ rs.getString("Address") + " " + rs.getString("State");
 				}
-
+					String str = "hey";
 			LatLng points = computeLatLng.getLatLongPositions(upsformattedAdd);
 	     	addCoordinates = "insert into COORDINATES (CustomerID, Latitude, Longitude)" + " values (\"" + CID + "\",\"" + points.lat + "\", \"" + points.lng + "\")";
 			System.out.println(addCoordinates);
@@ -207,11 +217,17 @@ public class connect{
 		 * @return ResultSet
 		 * @param CID	The int that identifies the customer to search for
 		 **/
-		public ResultSet searchForCustomerInView(int CID){
+		public ResultSet searchForCustomerInView(int CID, int PID){
 			ResultSet rs;
 			try{
+				if(PID == 0){
 					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID);
 					return rs;
+				}else{
+					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID +" AND PublicationID = "+ PID);
+					return rs;
+				}
+					
 			}
 			catch(Exception e){
 					e.printStackTrace();
@@ -378,10 +394,10 @@ public class connect{
 		ResultSet rs;
 		try{
 			if(PID!=0){
-				rs = stmt.executeQuery("select * from publications where PublicationID = " + PID);
+				rs = stmt2.executeQuery("select * from publications where PublicationID = " + PID);
 			}
 			else{
-				rs = stmt.executeQuery("select * from publications where PublicationName = \"" + t + "\"");
+				rs = stmt2.executeQuery("select * from publications where PublicationName = \"" + t + "\"");
 			}
 			return rs;
 		}
@@ -425,12 +441,55 @@ public class connect{
 			return false;
 		}
 	}
-	/**
-	 * Closes the connection created in this class.
-	 *
-	 **/
+	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP){
+		try{
+			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath) values (1, \"" + N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP + "\", \"" + CSE + "\", \"" + FP + "\")");
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	
+	public ResultSet userGetProfile(){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select * from userprofile where UserID = 1");
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResultSet userGetfilePath(){
+		ResultSet rs;
+		try{
+			rs = stmt.executeQuery("select FilePath from userprofile where UserID = 1");
+			return rs;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean userModData(String type, String to){
+		try{
+			stmt.executeUpdate("update userprofile set " + type + " = \"" + to + "\" where UserID = 1");
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+	
 	public void disconnect(){
 		try{
+			stmt.close();
+			stmt1.close();
+			stmt2.close();
 			con.close();
 		}catch(Exception e){
 			e.printStackTrace();

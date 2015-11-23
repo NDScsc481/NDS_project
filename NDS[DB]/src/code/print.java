@@ -1,4 +1,4 @@
-package code;
+
 
 import java.io.*;
 import java.sql.ResultSet;
@@ -33,7 +33,7 @@ public class print {
 		String invoiceNum;
 		double totalDue;
 		try{
-			ResultSet allActive = cn.getAll(), s;
+			ResultSet allActive = cn.getAllCustomers(),s;
 			while(allActive.next()){
 				customer tempc = new customer(cn, allActive.getInt("CustomerID"));
 				invoiceNum = DateTime.getDateNameFile() + "-" +String.valueOf(tempc.getCID());
