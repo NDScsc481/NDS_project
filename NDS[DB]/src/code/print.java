@@ -79,4 +79,18 @@ public class print {
 		}
 	}
 	
+	//unfinished
+	public void printSummary(){
+		try{
+			System.out.println(customer.getAddress("A", "", "c", "s", "z"));
+			ResultSet del = cn.getSummaryInfo(DateTime.getWeekday(), DateTime.getMonthday());
+			del.next();
+			while(!del.isAfterLast()){
+				
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }

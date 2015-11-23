@@ -19,7 +19,7 @@ public class Main {
 	public static void main(String[] args) {
 		connect cn = new connect();
 		print p = new print(cn);
-//		p.printAllBills();
+		p.printSummary();
 //		LinkedList<customer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
 //
 //		LinkedList<customer> sortedCustList = new LinkedList<customer>();

@@ -204,6 +204,7 @@ public class connect{
 			return null;
 		}
 	}
+	
 	public ResultSet getAllPublications(){
 		ResultSet rs;
 		try{
@@ -281,6 +282,17 @@ public class connect{
 	public ResultSet getBillInfo(){
 		try{
 			return stmt.executeQuery("select * from customerpublications order by CustomerID");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	//gets the day's delivery information for what to deliver to who; ordered by frequency (daily, weekly, monthly)
+	public ResultSet getSummaryInfo(int wk, int mn){
+		try{
+			return stmt.executeQuery("select * from customerpublications where DeliveryDays = " + wk + " OR DeliveryDays = " + mn + " OR Frequency = \"daily\" order by Frequency");
 		}
 		catch(Exception e){
 			e.printStackTrace();

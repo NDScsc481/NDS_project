@@ -132,7 +132,7 @@ public class user {
 	}
 	
 	public String getAddress(){
-		return String.format("%s%n%s", addr, city + ", " + state + " " + zip);
+		return String.format("%s%n%s, %s %s", addr, city, state, zip);
 	}
 	
 	public String getEmail(){
