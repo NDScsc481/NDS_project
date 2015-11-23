@@ -327,7 +327,7 @@ public class customer{
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 			}
-			r.close();
+			
 //			while(subs.next()){
 //				mySubs = new subscriptions(subs.getInt("ItemID"),ID, subs.getDouble("TotalAmount"));
 //			}

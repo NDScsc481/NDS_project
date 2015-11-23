@@ -78,9 +78,8 @@ public class customer {
 		state = st;
 		zip = z;
 	}
-
-	public customer(int cID, int pID, String fN, String lN, String addLn1, String c, String st, String z,
-			boolean encap) {
+	//encap
+	public customer(int cID, int pID, String fN, String lN, String addLn1, String c, String st, String z, boolean encap) {
 		PID = pID;
 		CID = cID;
 		ResultSet r = cn.searchPublication(PID, "");
@@ -99,7 +98,8 @@ public class customer {
 		state = st;
 		zip = z;
 	}
-
+	//encap with address line two
+	
 	// select customer with specified customer ID
 	public customer(connect con, int ID) {
 		cn = con;
@@ -119,7 +119,7 @@ public class customer {
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 			}
-			r.close();
+			
 			while(points.next()){
 				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
 
@@ -142,16 +142,15 @@ public class customer {
 		if (addrLineTwo != null) {
 			return "Customer ID: " + CID + "\nName: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + "\n"
 					+ addrLineTwo + "\n" + city + ", " + state + " " + zip + "\nPhone Number: " + phoneNum
-					+ "\nStatus: " + status;
-		} else if (encapsulation && addrLineTwo != null) {
-			return "[Customer ID: " + CID + " Publication ID: " + PID + " Publication Name: " + publicationName
-					+ " Name: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + " " + addrLineTwo + " "
-					+ city + ", " + state + " " + zip + "]";
-		} else if (encapsulation && addrLineTwo == null) {
-			return "[Customer ID: " + CID + " Publication ID: " + PID + " Publication Name: " + publicationName
-					+ " Name: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + " " + city + ", " + state
-					+ " " + zip + "]";
-		}
+					+ "\nStatus: " + status;}
+//		} else if (encapsulation && addrLineTwo != null) {
+//			return "Customer ID: " + CID + " Name: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + " " + addrLineTwo + " "
+//					+ city + ", " + state + " " + zip + "\n Publication ID: " + PID + " Publication Name: " + publicationName;
+//					
+//		} else if (encapsulation && addrLineTwo == null) {
+//			return  "Customer ID: " + CID + " Name: " + firstName + " " + lastName + "\nAddress: " + addrLineOne  + " "
+//					+ city + ", " + state + " " + zip + "\n Publication ID: " + PID + " Publication Name: " + publicationName;
+//		}
 
 		else {
 			return "Customer ID: " + CID + "\nName: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + "\n"

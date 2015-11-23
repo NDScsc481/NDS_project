@@ -110,7 +110,7 @@ public class subscriptions{
 				startDate = DateTime.strToDate(r.getString("StartDate"));
 				endDate = DateTime.strToDate(r.getString("EndDate"));
 			}
-			r.close();
+		
 		}
 		catch(Exception e){
 			SID = 0;

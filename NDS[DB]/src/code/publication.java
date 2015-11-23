@@ -22,6 +22,7 @@ public class publication {
 	public String nextIssuedOn;
 	private connect cn;
 	NumberFormat fmatr = new DecimalFormat("$#.##"); 
+	
 	public publication(connect con, String tit, String gen, double prc, String freq, boolean[] weekdays){
 		cn= con;
 		int intWeekday =0;
@@ -58,7 +59,6 @@ public class publication {
 				genre = r.getString("Genre");
 				firstIssuedOn = r.getString("IssueDate");
 			}
-            r.close();
 
 		}
 		catch(Exception e){

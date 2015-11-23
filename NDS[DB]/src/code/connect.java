@@ -142,7 +142,6 @@ public class connect{
 					while(rs.next()){
 						upsformattedAdd = rs.getString("Zip") +", "+ rs.getString("Address") + " " + rs.getString("State");
 				}
-					String str = "hey";
 			LatLng points = computeLatLng.getLatLongPositions(upsformattedAdd);
 	     	addCoordinates = "insert into COORDINATES (CustomerID, Latitude, Longitude)" + " values (\"" + CID + "\",\"" + points.lat + "\", \"" + points.lng + "\")";
 			System.out.println(addCoordinates);
@@ -441,10 +440,11 @@ public class connect{
 			return false;
 		}
 	}
-	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP){
+	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP, double lat, double lng){
 		try{
-			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath) values (1, \"" + N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP + "\", \"" + CSE + "\", \"" + FP + "\")");
-			return true;
+			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath, Latitude, Longitude) values (1, \"" +
+		N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP+ "\", \"" + CSE + "\", \""+ FP + "\", \"" + lat +  "\", \"" + lng + "\")");
+			return true;//cn.userSetProfile("Owner", "Paper Inc.", "12345", "4680 Mission Blvd", "San Diego", "CA", "92109", "buddy@gmail.com" ,"6197772323", "buddyPersonal@gmail.com", "desktop");
 		}
 		catch(Exception e){
 			return false;

@@ -59,7 +59,7 @@ public class user {
 				CSEmail = r.getString("CSEmail");
 				filePath = r.getString("filePath");
 			}
-			r.close();
+			
 		}
 		catch(Exception e){
 			name = null;

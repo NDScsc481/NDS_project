@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 public class TodaysCustomerDeliveries {
 	
-	static LinkedList<publication> todaysPubList = new LinkedList<publication>();
-	static LinkedList<customer> cList = new LinkedList<customer>();
+	static LinkedList<Union> todaysPubList = new LinkedList<Union>();
 	
-	public static LinkedList<customer> generateTodaysCustDeliveries(){
+	public static LinkedList<Union> generateTodaysCustDeliveries(){
 		publication todaysPub;
+		Union un;
 		connect cn = new connect();
 		ResultSet rs = cn.getAllPublications();
 		
@@ -30,6 +30,7 @@ public class TodaysCustomerDeliveries {
 
 				//String issueDate = rsPub.getString("IssueDate");
 				//String freq = rsPub.getString("Frequency");
+				un = new Union(cn,rs.getInt("CustomerID"),rs.getInt("PublicationID"));
 				todaysPub = new publication(cn,rs.getInt("PublicationID"));
 				String nextDate = todaysPub.getNextIssueDate(rs.getString("IssueDate"), rs.getString("Frequency"));
 				Date today = DateTime.getTimeNow();
@@ -41,58 +42,13 @@ public class TodaysCustomerDeliveries {
 					//System.out.println( "line 32 : "+todaysPub);
 					System.out.println("IssueDate: "+ rs.getString("IssueDate") + " NextIssueDate: "+ nextDate+  " of pub ID: "+ rs.getInt("PublicationID"));
 
-					todaysPubList.add(todaysPub);
+					todaysPubList.add(un);
 				}
-				//cn.disconnect();
 				
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
-	
-	customer cust;
-	//ResultSet rsSub;
-	
+	return todaysPubList;
 
-	for(int i = 0; i<todaysPubList.size(); i++){
-		rs = cn.searchCustomerWhoSubscribeTo(todaysPubList.get(i).PID);
-		int pubID = todaysPubList.get(i).PID;
-		System.out.println("pub Id: " + todaysPubList.get(i).PID);
-		
-		try{
-			if(rs.next()){
-				//int CID = rsSub.getInt("CustomerID");
-				rs = cn.searchForCustomerInView(rs.getInt("CustomerID"),0);
-				try{
-					if(rs.next()){
-						System.out.println("custID from result set: " + rs.getString("FirstName"));
-
-						int id = rs.getInt("CustomerID");
-						String name = rs.getString("FirstName");
-						String lName = rs.getString("LastName");								
-						String address = rs.getString("Address");
-						String city = rs.getString("City");
-						String state = rs.getString("State");
-						String zip = rs.getString("Zip");
-					    cust = new customer(id, pubID, name, lName, address, city, state, zip, true);
-					    cList.add(cust);
-
-					}
-				}catch(Exception e){
-					e.printStackTrace();
-				}		
-			}
-				
-			}
-		catch(Exception e){
-			e.printStackTrace();
-		}		
-	   		
-		}
-		
-	cn.disconnect();
-
-	return cList;	
-	}
-	
-}
+}}

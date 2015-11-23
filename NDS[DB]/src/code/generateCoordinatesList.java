@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 public class generateCoordinatesList {
 	static LinkedList<LatLng> latLngList = new LinkedList<LatLng>();
-	public static LinkedList<LatLng> generateList(LinkedList<customer> customerList){
+	public static LinkedList<Union> generateList(LinkedList<Union> customerList){
 		LatLng coordinates;
 		connect cn = new connect();
 		ResultSet rsCoor;
@@ -21,6 +21,7 @@ public class generateCoordinatesList {
 //		}
 		for(int i =0; i<customerList.size(); i++){
 			int ID = customerList.get(i).CID;
+			//int Lat
 		   	rsCoor = cn.searchCustomerCoordinates(ID);
 		   	try{
 		   		if(rsCoor.next()){
@@ -34,8 +35,8 @@ public class generateCoordinatesList {
 			}		
 		   		
 		}
-		LinkedList<LatLng> sortedLatLng = DestinationRouter.distanceSort(latLngList);
-		return sortedLatLng;
+	//	LinkedList<LatLng> sortedLatLng = DestinationRouter.distanceSort(latLngList);
+		return customerList;
 	}
 
 }
