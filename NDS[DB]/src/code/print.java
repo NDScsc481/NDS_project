@@ -8,6 +8,7 @@ public class print {
 	private connect cn;
 	private user u;
 	private String filePath;
+	private String billFilePath;
 	private String billPeriod;
 	private String header;
 	private String today;
@@ -29,36 +30,43 @@ public class print {
 				filePath = u.getFilePath();
 			}
 		}
+		billFilePath = filePath + "/bills";
 	}
 	
 	//invoice number in name of text file
 	public void printAllBills(){
+		if(!Files.exists(Paths.get(billFilePath))){
+			try{
+				Files.createDirectories(Paths.get(billFilePath));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		billPeriod = DateTime.getBillPeriod();
 		String invoiceNum;
+		int tempID;
 		double totalDue;
 		try{
 			ResultSet allSubs = cn.getBillInfo();
 			allSubs.next();
 			while(!allSubs.isAfterLast()){
-				customer tempc = new customer
-						(allSubs.getInt("CustomerID"), 
-						allSubs.getString("FirstName"), 
-						allSubs.getString("LastName"), 
-						allSubs.getString("Address"), 
-						allSubs.getString("AddressLineTwo"), 
-						allSubs.getString("City"), 
-						allSubs.getString("State"), 
-						allSubs.getString("Zip"));
-				invoiceNum = today + "-" +tempc.getCID();
-				File f = new File(filePath, invoiceNum + ".txt");
+				tempID = allSubs.getInt("CustomerID");
+				invoiceNum = today + "-" +tempID;
+				File f = new File(billFilePath, invoiceNum + ".txt");
 				BufferedWriter w = new BufferedWriter(new FileWriter(f));
 				w.write(String.format("%s%42s%20s%n%35c%s%n%n",
 						header, "INVOICE", "#" + invoiceNum,
 						' ', "BILL PERIOD: " + billPeriod));
-				w.write(String.format("%s%n%s%n%s%n%n%-35s%-30s%s%n",
+				w.write(String.format("%s%n%s %s%n%s%n%n%-35s%-30s%s%n",
 						"BILL/SHIP TO:",
-						tempc.getFullName(),
-						tempc.getAddress(),
+						allSubs.getString("FirstName"), 
+						allSubs.getString("LastName"),
+						customer.getAddress(allSubs.getString("Address"), 
+								allSubs.getString("AddressLineTwo"), 
+								allSubs.getString("City"), 
+								allSubs.getString("State"), 
+								allSubs.getString("Zip")),
 						"PUBLICATION INFORMATION", "SUBSCRIPTION PERIOD", "PRICE"));
 				totalDue = 0;
 				do{
@@ -67,8 +75,8 @@ public class print {
 						allSubs.getString("StartDate") + " to " + allSubs.getString("EndDate"),
 						allSubs.getDouble("Price")));
 				totalDue +=allSubs.getDouble("Price");
-				}while(allSubs.next()&&allSubs.getInt("CustomerID")==tempc.getCID());
-				w.write(String.format("%n%-15s $%.2f", "TOTAL DUE:", totalDue));
+				}while(allSubs.next()&&allSubs.getInt("CustomerID")==tempID);
+				w.write(String.format("%n%n%-15s%.2f%38s %s", "TOTAL DUE:", totalDue, "Date Printed:", today));
 				w.close();
 			}
 			allSubs.close();
@@ -83,11 +91,19 @@ public class print {
 	public void printSummary(){
 		try{
 			System.out.println(customer.getAddress("A", "", "c", "s", "z"));
-			ResultSet del = cn.getSummaryInfo(DateTime.getWeekday(), DateTime.getMonthday());
-			del.next();
-			while(!del.isAfterLast()){
-				
+			File f = new File(filePath, "Summary.txt");
+			BufferedWriter w = new BufferedWriter(new FileWriter(f));
+			w.write(String.format("%s%42s %s%n%n%nPUBLICATIONS TOTALS%n%n%-35sCOUNT%n", header, "SUMMARY", today, "TITLE"));
+			ResultSet pubList = cn.getSummaryPublicationInfo(DateTime.getWeekday(), DateTime.getMonthday());
+			int total = 0;
+			while(pubList.next()){
+				total+=pubList.getInt("Count");
+				w.write(String.format("%-35s%s%n", pubList.getString("PublicationTitle"), pubList.getInt("Count")));
 			}
+			pubList.close();
+			w.write(String.format("%n%-20s%d", "PUBLICATIONS DUE:", total));
+			w.close();
+			System.out.println("Success");
 		}
 		catch(Exception e){
 			e.printStackTrace();

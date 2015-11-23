@@ -179,19 +179,19 @@ public class DateTime {
 	 */
 	public static String getBillPeriod(){
 		Calendar myCal = Calendar.getInstance();
-		switch(myCal.MONTH){
-		case 1: return "January " + myCal.YEAR;
-		case 2: return "February " + myCal.YEAR;
-		case 3: return "March " + myCal.YEAR;
-		case 4: return "April " + myCal.YEAR;
-		case 5: return "May " + myCal.YEAR;
-		case 6: return "June " + myCal.YEAR;
-		case 7: return "July " + myCal.YEAR;
-		case 8: return "August " + myCal.YEAR;
-		case 9: return "September " + myCal.YEAR;
-		case 10: return "October " + myCal.YEAR;
-		case 11: return "November " + myCal.YEAR;
-		case 0: return "December " + (myCal.YEAR - 1);
+		switch(myCal.get(Calendar.MONTH)){
+		case 1: return "January " + myCal.get(Calendar.YEAR);
+		case 2: return "February " + myCal.get(Calendar.YEAR);
+		case 3: return "March " + myCal.get(Calendar.YEAR);
+		case 4: return "April " + myCal.get(Calendar.YEAR);
+		case 5: return "May " + myCal.get(Calendar.YEAR);
+		case 6: return "June " + myCal.get(Calendar.YEAR);
+		case 7: return "July " + myCal.get(Calendar.YEAR);
+		case 8: return "August " + myCal.get(Calendar.YEAR);
+		case 9: return "September " + myCal.get(Calendar.YEAR);
+		case 10: return "October " + myCal.get(Calendar.YEAR);
+		case 11: return "November " + myCal.get(Calendar.YEAR);
+		case 0: return "December " + (myCal.get(Calendar.YEAR) - 1);
 		default: return null;
 		}
 	}

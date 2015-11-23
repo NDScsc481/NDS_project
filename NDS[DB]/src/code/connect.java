@@ -281,7 +281,7 @@ public class connect{
 	//gets information required to print out bill; see customerpublications view in db
 	public ResultSet getBillInfo(){
 		try{
-			return stmt.executeQuery("select * from customerpublications order by CustomerID");
+			return stmt.executeQuery("select * from customerpublications order by CustomerID, PublicationTitle");
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -290,9 +290,20 @@ public class connect{
 	}
 	
 	//gets the day's delivery information for what to deliver to who; ordered by frequency (daily, weekly, monthly)
-	public ResultSet getSummaryInfo(int wk, int mn){
+	public ResultSet getSummaryCustomerInfo(int wk, int mn){
 		try{
 			return stmt.executeQuery("select * from customerpublications where DeliveryDays = " + wk + " OR DeliveryDays = " + mn + " OR Frequency = \"daily\" order by Frequency");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	//gets the info of just publications to create a list of what to deliver on the given day and how many with "Count"
+	public ResultSet getSummaryPublicationInfo(int wk, int mn){
+		try{
+			return stmt.executeQuery("SELECT PublicationTitle, count(*) as 'Count' FROM customerpublications where DeliveryDays = " + wk + " OR DeliveryDays = " + mn + " OR Frequency = \"daily\" GROUP BY PublicationTitle ORDER BY PublicationTitle");
 		}
 		catch(Exception e){
 			e.printStackTrace();
