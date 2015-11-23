@@ -1,4 +1,4 @@
-package code;
+
 import java.util.LinkedList;
 import java.sql.*;
 import java.util.Date;
@@ -18,9 +18,9 @@ import java.util.*;
 public class TodaysCustomerDeliveries {
 	
 	static LinkedList<publication> todaysPubList = new LinkedList<publication>();
-	static LinkedList<Integer> cList = new LinkedList<Integer>();
+	static LinkedList<customer> cList = new LinkedList<customer>();
 	
-	public static LinkedList<Integer> generateTodaysCustDeliveries(){
+	public static LinkedList<customer> generateTodaysCustDeliveries(){
 		publication todaysPub;
 		connect cn = new connect();
 		ResultSet rs = cn.getAllPublications();
@@ -30,7 +30,7 @@ public class TodaysCustomerDeliveries {
 
 				//String issueDate = rsPub.getString("IssueDate");
 				//String freq = rsPub.getString("Frequency");
-				todaysPub = new publication(rs.getInt("PublicationID"));
+				todaysPub = new publication(cn,rs.getInt("PublicationID"));
 				String nextDate = todaysPub.getNextIssueDate(rs.getString("IssueDate"), rs.getString("Frequency"));
 				Date today = DateTime.getTimeNow();
 				//Date date = DateTime.strToDate(nextDate);
@@ -62,20 +62,20 @@ public class TodaysCustomerDeliveries {
 		try{
 			if(rs.next()){
 				//int CID = rsSub.getInt("CustomerID");
-				rs = cn.searchForCustomerInView(rs.getInt("CustomerID"));
+				rs = cn.searchForCustomerInView(rs.getInt("CustomerID"),0);
 				try{
 					if(rs.next()){
 						System.out.println("custID from result set: " + rs.getString("FirstName"));
 
-						//int id = rs.getInt("CustomerID");
-//						String name = rs.getString("FirstName");
-//						String lName = rs.getString("LastName");								
-//						String address = rs.getString("Address");
-//						String city = rs.getString("City");
-//						String state = rs.getString("State");
-//						String zip = rs.getString("Zip");
-//					    cust = new customer(id, pubID, name, lName, address, city, state, zip, true);
-					    cList.add(rs.getInt("CustomerID"));
+						int id = rs.getInt("CustomerID");
+						String name = rs.getString("FirstName");
+						String lName = rs.getString("LastName");								
+						String address = rs.getString("Address");
+						String city = rs.getString("City");
+						String state = rs.getString("State");
+						String zip = rs.getString("Zip");
+					    cust = new customer(id, pubID, name, lName, address, city, state, zip, true);
+					    cList.add(cust);
 
 					}
 				}catch(Exception e){
@@ -94,5 +94,5 @@ public class TodaysCustomerDeliveries {
 
 	return cList;	
 	}
-	public 
+	
 }

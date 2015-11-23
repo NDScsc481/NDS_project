@@ -1,4 +1,4 @@
-package code;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.lang.Object;
@@ -171,6 +171,33 @@ public class DateTime {
 		 }else
 			 dayOfMonth = ""+ date.getDayOfMonth();
 		 return date.getYear() + "-"+ date.getMonthValue() + "-"+ dayOfMonth;
+	}
+	/*
+	 * Provides the month previous to the current month to be displayed on the bill that is being sent.
+	 * 
+	 * @return previous month
+	 */
+	public static String getLastMonth(){
+		Calendar myCal = Calendar.getInstance();
+		switch(myCal.MONTH){
+		case 1: return "January";
+		case 2: return "February";
+		case 3: return "March";
+		case 4: return "April";
+		case 5: return "May";
+		case 6: return "June";
+		case 7: return "July";
+		case 8: return "August";
+		case 9: return "September";
+		case 10: return "October";
+		case 11: return "November";
+		case 0: return "December";
+		default: return null;
+		}
+	}
+	
+	public static String getDateNameFile(){
+		return dateToStr(getTimeNow());
 	}
 //	public Calendar getDayFromIntValue(int dayNum){
 //		Calendar weekDay = Calendar.getInstance();
