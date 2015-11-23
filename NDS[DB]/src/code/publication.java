@@ -1,4 +1,4 @@
-package code;
+
 import java.sql.ResultSet;
 import java.text.*;
 import java.util.Date;
@@ -20,10 +20,10 @@ public class publication {
 	private String status;
 	protected String firstIssuedOn;
 	public String nextIssuedOn;
-	private connect cn = new connect();
+	private connect cn;
 	NumberFormat fmatr = new DecimalFormat("$#.##"); 
-	public publication(String tit, String gen, double prc, String freq, boolean[] weekdays){
-		
+	public publication(connect con, String tit, String gen, double prc, String freq, boolean[] weekdays){
+		cn= con;
 		int intWeekday =0;
 		if(freq =="daily")
 			firstIssuedOn = DateTime.getFirstInstanceOf(intWeekday);
@@ -45,7 +45,8 @@ public class publication {
 		frequency = freq;
 	}
 	
-	public publication(int ID){
+	public publication(connect con, int ID){
+		cn = con;
 		ResultSet r = cn.searchPublication(ID, "");
 		try{
 			while(r.next()){
@@ -56,8 +57,9 @@ public class publication {
 				frequency = r.getString("Frequency");
 				genre = r.getString("Genre");
 				firstIssuedOn = r.getString("IssueDate");
-				//nextIssuedOn = r.getString(columnIndex)
 			}
+            r.close();
+
 		}
 		catch(Exception e){
 			PID = 0;
@@ -136,5 +138,12 @@ public class publication {
 	public void setNextIssueDate(String next){
 		nextIssuedOn = next;
 	}
+	 public double getPrice(){
+	        return price;
+	    }
+	    
+	    public String getBillTitle(){
+	        return title + " - " +frequency;
+	    }
 	
 }

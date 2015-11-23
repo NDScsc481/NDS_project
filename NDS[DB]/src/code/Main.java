@@ -1,4 +1,4 @@
-package code;
+
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -19,33 +19,31 @@ public class Main {
 	public static void main(String[] args) {
 		connect cn = new connect();
 		
-		LinkedList<Integer> custIDList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
+		LinkedList<customer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
 
 		LinkedList<customer> sortedCustList = new LinkedList<customer>();
+		
+		LinkedList<LatLng> latLngList = generateCoordinatesList.generateList(custList);
+		
+		for(int j =0; j<custList.size();j++){
+			int custID = latLngList.get(j).CID;
+			for(int i =0; i< latLngList.size(); i++){
 
-		LinkedList<LatLng> latLngList = generateCoordinatesList.generateList(custIDList);
-//		for(int j =0; j<custList.size();j++){
-//			int custID = latLngList.get(j).CID;
-//			for(int i =0; i< latLngList.size(); i++){
-//				//int pubID = custList.get(i).PID;
-//				//int pubID2 = custList.get(i+1).PID;
-//				//System.out.println("pubId: "+ custList.get(i).PID+ " pubID2: "+ pubID2);
-//
-//				if(custList.get(i).CID == custID ){
-//					sortedCustList.add(custList.get(i));
-//					 break;
-//					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
-//
-//				}
-//			}
-//		}
+				if(custList.get(i).CID== custID ){
+					sortedCustList.add(custList.get(i));
+					 break;
+					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
+
+				}
+			}
+		}
 //		System.out.println("LatLanglist: " + latLngList.size());
 //		for(int p =0; p< latLngList.size(); p++){
 //			System.out.println(latLngList.get(p));
 //		}
-//		System.out.println("Sorted cust list size: " + sortedCustList.size());
-//		for(int p =0; p< sortedCustList.size(); p++){
-//			System.out.println(sortedCustList.get(p));
+		System.out.println("Sorted cust list size: " + sortedCustList.size());
+		for(int p =0; p< sortedCustList.size(); p++){
+			System.out.println(sortedCustList.get(p));
 //		}
 ////		publication todaysPub;
 ////		try{
@@ -160,14 +158,14 @@ public class Main {
 //		}catch(Exception e){
 //			
 //		}
-	}
+		}
 	
 	
 	
 	//	public static void modifyCustomer(){
 //			
 //	
-//	}
+}
 }
 
 
