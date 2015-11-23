@@ -129,6 +129,18 @@ public class customer {
 			CID = 0;
 		}
 	}
+	
+	//this constructor creates a customer object strictly for the printing function. Only necessary information is initialized to values
+	public customer(int ID, String fN, String lN, String addLn1, String addLn2, String c, String s, String z){
+		CID = ID;
+		firstName = fN;
+		lastName = lN;
+		addrLineOne = addLn1;
+		addrLineTwo = addLn2;
+		city =c;
+		state = s;
+		zip = z;
+	}
 
 	public LatLng getLatLng() {
 		return myPoints;
