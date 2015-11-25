@@ -26,7 +26,6 @@ public class TodaysCustomerDeliveries {
 		Calendar cal = Calendar.getInstance();
 		int day = cal.get(Calendar.DAY_OF_WEEK);
 		int date = cal.get(Calendar.DAY_OF_MONTH);
-		 //int day = today.getDay();
 		ResultSet rs = cn.getAllPublications(day,date);
 		try{
 			while(rs.next()){

@@ -459,14 +459,14 @@ public class connect{
 		}
 	}
 	
-//	public void disconnect(){
-//		try{
-//			stmt.close();
-//			stmt1.close();
-//			stmt2.close();
-//			con.close();
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-	//}
+	public void disconnect(){
+		try{
+			stmt.close();
+			stmt1.close();
+			stmt2.close();
+			con.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }

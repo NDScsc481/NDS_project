@@ -21,12 +21,14 @@ public class Main {
 		
 		
 			
-	LinkedList<Integer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
+//	LinkedList<Integer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
+//
+//	System.out.println("Sorted cust list size: ");// + sortedCustList.size());
+//	for(int p =0; p< custList.size(); p++){
+//		System.out.println(custList.get(p));
+//	}
+	customer mockCust45 = new customer(cn,"Megan","Green", "607 robert ave", "", "Chula Vista", "CA", "91910", "8889996666"); 
 
-	System.out.println("Sorted cust list size: ");// + sortedCustList.size());
-	for(int p =0; p< custList.size(); p++){
-		System.out.println(custList.get(p));
-	}
 	}
 //	hhhhh	
 //		LinkedList<LatLng> latLngList =

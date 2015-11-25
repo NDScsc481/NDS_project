@@ -60,7 +60,6 @@ public class customer {
 	public customer(connect con, int ID) {
 		cn = con;
 		ResultSet r = cn.searchCustomer(ID, "", "");
-		ResultSet points = cn.getLatLngValues(ID);
 		try {
 			while (r.next()) {
 				CID = r.getInt("CustomerID");
@@ -75,12 +74,12 @@ public class customer {
 				zip = r.getString("Zip");
 				phoneNum = r.getString("Phone");
 			}
-			
+			r.close();
+			ResultSet points = cn.getLatLngValues(ID);
 			while(points.next()){
 				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
-
-				
 			}
+			points.close();
 		} catch (Exception e) {
 			CID = 0;
 		}
