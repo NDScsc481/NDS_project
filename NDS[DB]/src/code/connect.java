@@ -59,18 +59,7 @@ public class connect{
 			return 0;
 		}
 	}
-	public ResultSet searchCustomerWhoSubscribeTo(int PID){
-		ResultSet rs;
-		try{
-			 rs = stmt.executeQuery("select * from coor_cust_pub_scrip where PublicationID = " + PID);
-			return rs;
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+	
 	/**
 	 * Returns the ResultSet containing the subscription information for the given CustomerID.
 	 *
@@ -197,10 +186,11 @@ public class connect{
 				return null;
 			}
 		}
-		public ResultSet getAllPublications(){
+		public ResultSet getAllPublications(int day, int date){
 			ResultSet rs;
-			try{
-				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where PublicationStatus =\"" + "ACTIVE" + "\""  );
+		
+			try{// " + type + " = \"" + to + "\" where CustomerID = " + CID);
+				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where (DeliveryDays = \"" +day+"\" AND Frequency=\"" +"weekly"+"\") OR (DeliveryDays = \"" +date+"\" AND Frequency=\""+"monthly"+"\") OR Frequency=\""+"daily"+"\" order by CustomerID "  );
 				return rs;
 			}
 			catch(Exception e){
@@ -216,23 +206,7 @@ public class connect{
 		 * @return ResultSet
 		 * @param CID	The int that identifies the customer to search for
 		 **/
-		public ResultSet searchForCustomerInView(int CID, int PID){
-			ResultSet rs;
-			try{
-				if(PID == 0){
-					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID);
-					return rs;
-				}else{
-					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID +" AND PublicationID = "+ PID);
-					return rs;
-				}
-					
-			}
-			catch(Exception e){
-					e.printStackTrace();
-					return null;
-			}
-		}
+		
 		/**
 		 * Returns the ResultSet containing the set of customers that match the given information. This method is to accept either a CustomerID or a name. 
 		 * If the CustomerID is provided, one customer with the given ID will be in the ResultSet. 
@@ -345,9 +319,9 @@ public class connect{
 	 * @param f		The frequency of the publication (Daily, Weekly, Monthly)
 	 **/
 	
-	public void addPublication(String title, String genre, double price, String frequency, String issuedOn){
+	public void addPublication(String title, String genre, double price, String frequency, int day){
 		try{
-			stmt.executeUpdate("insert into publications (PublicationName, Genre, Price, Frequency, IssueDate) values (\"" + title + "\", \"" + genre + "\", \"" + price + "\", \"" + frequency + "\", \"" + issuedOn + "\")");
+			stmt.executeUpdate("insert into publications (PublicationName, Genre, Price, Frequency, DeliveryDays) values (\"" + title + "\", \"" + genre + "\", \"" + price + "\", \"" + frequency + "\", \"" + day + "\")");
 
 		}
 		catch(Exception e){
@@ -485,14 +459,14 @@ public class connect{
 		}
 	}
 	
-	public void disconnect(){
-		try{
-			stmt.close();
-			stmt1.close();
-			stmt2.close();
-			con.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+//	public void disconnect(){
+//		try{
+//			stmt.close();
+//			stmt1.close();
+//			stmt2.close();
+//			con.close();
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+	//}
 }

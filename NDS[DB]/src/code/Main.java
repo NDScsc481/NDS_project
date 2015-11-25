@@ -21,12 +21,11 @@ public class Main {
 		
 		
 			
-	LinkedList<Union> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
+	LinkedList<Integer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
 
-	LinkedList<Union> sortedCustList =  generateCoordinatesList.generateList(custList);
 	System.out.println("Sorted cust list size: ");// + sortedCustList.size());
-	for(int p =0; p< sortedCustList.size(); p++){
-		System.out.println(sortedCustList.get(p));
+	for(int p =0; p< custList.size(); p++){
+		System.out.println(custList.get(p));
 	}
 	}
 //		

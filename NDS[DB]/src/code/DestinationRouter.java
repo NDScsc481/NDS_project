@@ -5,11 +5,10 @@ import java.sql.*;
 
 public class DestinationRouter{		
 	
-	
 	private static LatLng start; 
 	
-	
-	public static LinkedList<Union> distanceSort(LinkedList<Union> list){
+	public static LinkedList<Integer> distanceSort(LinkedList<LatLng> list){
+		LinkedList<Integer> sortedList = new LinkedList<Integer>();
 		connect cn = new connect();
 		double startLat=0.0;
 		double startLng =0.0;
@@ -22,33 +21,25 @@ public class DestinationRouter{
 			System.out.println("error in destination router");
 		}
 		start = new LatLng(startLat, startLng);
-	
-		
-		LinkedList<Union> sortedList = new LinkedList<Union>();
-		//sortedList.addFirst(start);			
-		list.removeFirst();
 		double lowDist = 0.0;
-		Union shortest;
+		LatLng shortest;
 		int SIZE=list.size();
 		for(int i = 0; i < SIZE; i++){
-			
 			shortest = list.peekFirst();
-			lowDist = CoordDistance(start,shortest.getPoints());
-
+			lowDist = CoordDistance(start,shortest);
 			for(int j = 0; j< list.size() ; j++){
-				Union un = list.get(j);
-				double dist = CoordDistance(start, un.getPoints());
+				LatLng pair = list.get(j);
+				double dist = CoordDistance(start, pair);
 				if(dist< lowDist){
 					lowDist = dist;
-					shortest = un;
-
+					shortest = pair;
 				}
 			}
-			sortedList.addLast(shortest);
+			sortedList.addLast(shortest.getCustomerID());
 			list.remove(shortest);
-			start = shortest.getPoints();	
+			start = shortest;	
 		}
-		return list;		
+		return sortedList;		
 	}
 
 	/**

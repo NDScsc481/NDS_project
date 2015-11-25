@@ -17,38 +17,26 @@ import java.time.LocalDateTime;
 import java.util.*;
 public class TodaysCustomerDeliveries {
 	
-	static LinkedList<Union> todaysPubList = new LinkedList<Union>();
-	
-	public static LinkedList<Union> generateTodaysCustDeliveries(){
-		publication todaysPub;
-		Union un;
+	static LinkedList<LatLng> todaysPubList = new LinkedList<LatLng>();
+	static LinkedList<Integer> IDList = new LinkedList<Integer>();
+
+	public static LinkedList<Integer> generateTodaysCustDeliveries(){
+		LatLng latLngPair;
 		connect cn = new connect();
-		ResultSet rs = cn.getAllPublications();
-		
+		Calendar cal = Calendar.getInstance();
+		int day = cal.get(Calendar.DAY_OF_WEEK);
+		int date = cal.get(Calendar.DAY_OF_MONTH);
+		 //int day = today.getDay();
+		ResultSet rs = cn.getAllPublications(day,date);
 		try{
 			while(rs.next()){
-
-				//String issueDate = rsPub.getString("IssueDate");
-				//String freq = rsPub.getString("Frequency");
-				un = new Union(cn,rs.getInt("CustomerID"),rs.getInt("PublicationID"));
-				todaysPub = new publication(cn,rs.getInt("PublicationID"));
-				String nextDate = todaysPub.getNextIssueDate(rs.getString("IssueDate"), rs.getString("Frequency"));
-				Date today = DateTime.getTimeNow();
-				//Date date = DateTime.strToDate(nextDate);
-				String todayStr = DateTime.dateToStr(today);
-				
-				if(nextDate.equals(todayStr)){
-					//todaysPub = new publication(rsPub.getInt("PublicationID"));
-					//System.out.println( "line 32 : "+todaysPub);
-					System.out.println("IssueDate: "+ rs.getString("IssueDate") + " NextIssueDate: "+ nextDate+  " of pub ID: "+ rs.getInt("PublicationID"));
-
-					todaysPubList.add(un);
-				}
-				
+				latLngPair = new LatLng(rs.getInt("CustomerID"), rs.getDouble("Latitude"),rs.getDouble("Longitude"));
+				todaysPubList.add(latLngPair);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
-	return todaysPubList;
+		IDList = DestinationRouter.distanceSort(todaysPubList);
+	return IDList;
 
 }}
