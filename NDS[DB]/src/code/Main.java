@@ -28,7 +28,7 @@ public class Main {
 		System.out.println(custList.get(p));
 	}
 	}
-//		
+//	hhhhh	
 //		LinkedList<LatLng> latLngList =
 //		
 //		for(int j =0; j<custList.size();j++){
