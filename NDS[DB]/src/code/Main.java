@@ -18,45 +18,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		connect cn = new connect();
-		print p = new print(cn);
-//		p.printAllBills();
-		p.printSummary();
-//		LinkedList<customer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
-//
-//		LinkedList<customer> sortedCustList = new LinkedList<customer>();
-//		
-//		LinkedList<LatLng> latLngList = generateCoordinatesList.generateList(custList);
 		
-<<<<<<< HEAD
 		
 			
-//	LinkedList<Integer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
-//
-//	System.out.println("Sorted cust list size: ");// + sortedCustList.size());
-//	for(int p =0; p< custList.size(); p++){
-//		System.out.println(custList.get(p));
-//	}
-	customer mockCust45 = new customer(cn,"Megan","Green", "607 robert ave", "", "Chula Vista", "CA", "91910", "8889996666"); 
+	LinkedList<Integer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
 
+	System.out.println("Sorted cust list size: ");// + sortedCustList.size());
+	for(int p =0; p< custList.size(); p++){
+		System.out.println(custList.get(p));
 	}
-//	hhhhh	
+	}
+//		
 //		LinkedList<LatLng> latLngList =
 //		
-=======
->>>>>>> 7328e69504a36475ed229c8ae141edf86a841b1a
-//		for(int j =0; j<custList.size();j++){
-//			int custID = latLngList.get(j).CID;
-//			for(int i =0; i< latLngList.size(); i++){
-//
-//				if(custList.get(i).CID== custID ){
-//					sortedCustList.add(custList.get(i));
-//					 break;
-//					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
-//
-//				}
-//			}
-<<<<<<< HEAD
-=======
+
 //		}
 //		System.out.println("LatLanglist: " + latLngList.size());
 //		for(int p =0; p< latLngList.size(); p++){
@@ -65,7 +40,7 @@ public class Main {
 //		System.out.println("Sorted cust list size: " + sortedCustList.size());
 //		for(int p =0; p< sortedCustList.size(); p++){
 //			System.out.println(sortedCustList.get(p));
->>>>>>> 7328e69504a36475ed229c8ae141edf86a841b1a
+
 //		}
 ////		System.out.println("LatLanglist: " + latLngList.size());
 ////		for(int p =0; p< latLngList.size(); p++){
@@ -193,10 +168,7 @@ public class Main {
 	//	public static void modifyCustomer(){
 //			
 //	
-<<<<<<< HEAD
 
-=======
->>>>>>> 7328e69504a36475ed229c8ae141edf86a841b1a
 }
 
 
