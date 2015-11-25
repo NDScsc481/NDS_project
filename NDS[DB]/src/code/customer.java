@@ -19,7 +19,6 @@ public class customer {
 	private subscriptions mySubs;
 	private LatLng myPoints;
 	private connect cn = new connect();
-	private boolean encapsulation = false;
 
 	// create new customer AddTypeOne
 	public customer(connect con, String fN, String lN, String addLn1, String c, String st, String z, String pN) {
@@ -56,55 +55,11 @@ public class customer {
 		phoneNum = pN;
 	}
 
-	// encapsulation constructor for lat long with addLn2
-	public customer(int cID, int pID, String fN, String lN, String addLn1, String addLn2, String c, String st, String z,
-			boolean encap) {
-		PID = pID;
-		CID = cID;
-		ResultSet r = cn.searchPublication(PID, "");
-		try {
-			while (r.next()) {
-				publicationName = r.getString("PublicationName");
-			}
-		} catch (Exception e) {
-
-		}
-		encapsulation = encap;
-		firstName = fN;
-		lastName = lN;
-		addrLineOne = addLn1;
-		addrLineTwo = addLn2;
-		city = c;
-		state = st;
-		zip = z;
-	}
-
-	public customer(int cID, int pID, String fN, String lN, String addLn1, String c, String st, String z,
-			boolean encap) {
-		PID = pID;
-		CID = cID;
-		ResultSet r = cn.searchPublication(PID, "");
-		try {
-			while (r.next()) {
-				publicationName = r.getString("PublicationName");
-			}
-		} catch (Exception e) {
-
-		}
-		encapsulation = encap;
-		firstName = fN;
-		lastName = lN;
-		addrLineOne = addLn1;
-		city = c;
-		state = st;
-		zip = z;
-	}
-
+	
 	// select customer with specified customer ID
 	public customer(connect con, int ID) {
 		cn = con;
 		ResultSet r = cn.searchCustomer(ID, "", "");
-		ResultSet points = cn.getLatLngValues(ID);
 		try {
 			while (r.next()) {
 				CID = r.getInt("CustomerID");
@@ -120,11 +75,11 @@ public class customer {
 				phoneNum = r.getString("Phone");
 			}
 			r.close();
+			ResultSet points = cn.getLatLngValues(ID);
 			while(points.next()){
 				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
-
-				
 			}
+			points.close();
 		} catch (Exception e) {
 			CID = 0;
 		}
@@ -142,16 +97,7 @@ public class customer {
 		if (addrLineTwo != null) {
 			return "Customer ID: " + CID + "\nName: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + "\n"
 					+ addrLineTwo + "\n" + city + ", " + state + " " + zip + "\nPhone Number: " + phoneNum
-					+ "\nStatus: " + status;
-		} else if (encapsulation && addrLineTwo != null) {
-			return "[Customer ID: " + CID + " Publication ID: " + PID + " Publication Name: " + publicationName
-					+ " Name: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + " " + addrLineTwo + " "
-					+ city + ", " + state + " " + zip + "]";
-		} else if (encapsulation && addrLineTwo == null) {
-			return "[Customer ID: " + CID + " Publication ID: " + PID + " Publication Name: " + publicationName
-					+ " Name: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + " " + city + ", " + state
-					+ " " + zip + "]";
-		}
+					+ "\nStatus: " + status;}
 
 		else {
 			return "Customer ID: " + CID + "\nName: " + firstName + " " + lastName + "\nAddress: " + addrLineOne + "\n"

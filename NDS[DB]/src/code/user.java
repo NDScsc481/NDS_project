@@ -15,11 +15,22 @@ public class user {
 	private String CSPhone;
 	private String CSEmail;
 	private String filePath;
+	private LatLng myPoints;
+
 	private connect cn;
 	
 	//add user data; sets name to null if failure to add to db or set file path
 	public user(connect con, String n, String cN, String p, String a, String c, String s, String z, String e, String csp, String cse, String fP){
+		
 		cn = con;
+		String str = z + ", " + a +" "+ s;
+		try{
+			myPoints = computeLatLng.getLatLongPositions(str);
+
+		}catch(Exception f){
+			System.out.println("error getting user lat/lng values");
+		}
+
 		name = n;
 		companyName = cN;
 		pass = p;
@@ -31,7 +42,7 @@ public class user {
 		CSPhone = csp;
 		CSEmail = cse;
 		filePath = fP+"/PaperBoyPrints";
-		if(!cn.userSetProfile(n, cN, p, a, c, s, z, e, csp, cse, filePath)){
+		if(!cn.userSetProfile(n, cN, p, a, c, s, z, e, csp, cse, filePath,myPoints.lat, myPoints.lng  )){
 			name = null;
 			System.out.println("FAILED");
 		}
@@ -47,6 +58,8 @@ public class user {
 	public user(connect con){
 		cn = con;
 		ResultSet r = cn.userGetProfile();
+		ResultSet points = cn.getLatLngValues(1);
+
 		try{
 			while(r.next()){
 				name = r.getString("Name");
@@ -61,8 +74,13 @@ public class user {
 				CSEmail = r.getString("CSEmail");
 				filePath = r.getString("filePath");
 			}
-			r.close();
+			while(points.next()){
+				myPoints = new LatLng(points.getDouble("Latitude"), points.getDouble("Longitude"));
+
+				
+			}
 		}
+		
 		catch(Exception e){
 			name = null;
 		}

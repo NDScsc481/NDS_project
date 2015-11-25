@@ -19,32 +19,37 @@ public class Main {
 	public static void main(String[] args) {
 		connect cn = new connect();
 		
-		LinkedList<customer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
-
-		LinkedList<customer> sortedCustList = new LinkedList<customer>();
 		
-		LinkedList<LatLng> latLngList = generateCoordinatesList.generateList(custList);
-		
-		for(int j =0; j<custList.size();j++){
-			int custID = latLngList.get(j).CID;
-			for(int i =0; i< latLngList.size(); i++){
+			
+//	LinkedList<Integer> custList = TodaysCustomerDeliveries.generateTodaysCustDeliveries();
+//
+//	System.out.println("Sorted cust list size: ");// + sortedCustList.size());
+//	for(int p =0; p< custList.size(); p++){
+//		System.out.println(custList.get(p));
+//	}
+	customer mockCust45 = new customer(cn,"Megan","Green", "607 robert ave", "", "Chula Vista", "CA", "91910", "8889996666"); 
 
-				if(custList.get(i).CID== custID ){
-					sortedCustList.add(custList.get(i));
-					 break;
-					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
+	}
+//	hhhhh	
+//		LinkedList<LatLng> latLngList =
+//		
+//		for(int j =0; j<custList.size();j++){
+//			int custID = latLngList.get(j).CID;
+//			for(int i =0; i< latLngList.size(); i++){
+//
+//				if(custList.get(i).CID== custID ){
+//					sortedCustList.add(custList.get(i));
+//					 break;
+//					//System.out.println("custList.get(i): " pubID + " pubID2: "+ pubID2);
+//
+//				}
+//			}
+//		}
+////		System.out.println("LatLanglist: " + latLngList.size());
+////		for(int p =0; p< latLngList.size(); p++){
+////			System.out.println(latLngList.get(p));
+////		}
 
-				}
-			}
-		}
-//		System.out.println("LatLanglist: " + latLngList.size());
-//		for(int p =0; p< latLngList.size(); p++){
-//			System.out.println(latLngList.get(p));
-//		}
-		System.out.println("Sorted cust list size: " + sortedCustList.size());
-		for(int p =0; p< sortedCustList.size(); p++){
-			System.out.println(sortedCustList.get(p));
-//		}
 ////		publication todaysPub;
 ////		try{
 //			while(rs.next()){
@@ -158,14 +163,15 @@ public class Main {
 //		}catch(Exception e){
 //			
 //		}
-		}
-	
+	//	}
+	//user owner = new user(cn,"Owner", "Paper Inc.", "12345", "4680 Mission Blvd", "San Diego", "CA", "92109", "buddy@gmail.com" ,"6197772323", "buddyPersonal@gmail.com", "desktop");
+
 	
 	
 	//	public static void modifyCustomer(){
 //			
 //	
-}
+
 }
 
 

@@ -59,18 +59,7 @@ public class connect{
 			return 0;
 		}
 	}
-	public ResultSet searchCustomerWhoSubscribeTo(int PID){
-		ResultSet rs;
-		try{
-			 rs = stmt.executeQuery("select * from coor_cust_pub_scrip where PublicationID = " + PID);
-			return rs;
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+	
 	/**
 	 * Returns the ResultSet containing the subscription information for the given CustomerID.
 	 *
@@ -142,7 +131,6 @@ public class connect{
 					while(rs.next()){
 						upsformattedAdd = rs.getString("Zip") +", "+ rs.getString("Address") + " " + rs.getString("State");
 				}
-					String str = "hey";
 			LatLng points = computeLatLng.getLatLongPositions(upsformattedAdd);
 	     	addCoordinates = "insert into COORDINATES (CustomerID, Latitude, Longitude)" + " values (\"" + CID + "\",\"" + points.lat + "\", \"" + points.lng + "\")";
 			System.out.println(addCoordinates);
@@ -198,10 +186,11 @@ public class connect{
 				return null;
 			}
 		}
-		public ResultSet getAllPublications(){
+		public ResultSet getAllPublications(int day, int date){
 			ResultSet rs;
-			try{
-				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where PublicationStatus =\"" + "ACTIVE" + "\""  );
+		
+			try{// " + type + " = \"" + to + "\" where CustomerID = " + CID);
+				rs = stmt.executeQuery("select * from coor_cust_pub_scrip where (DeliveryDays = \"" +day+"\" AND Frequency=\"" +"weekly"+"\") OR (DeliveryDays = \"" +date+"\" AND Frequency=\""+"monthly"+"\") OR Frequency=\""+"daily"+"\" order by CustomerID "  );
 				return rs;
 			}
 			catch(Exception e){
@@ -217,23 +206,7 @@ public class connect{
 		 * @return ResultSet
 		 * @param CID	The int that identifies the customer to search for
 		 **/
-		public ResultSet searchForCustomerInView(int CID, int PID){
-			ResultSet rs;
-			try{
-				if(PID == 0){
-					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID);
-					return rs;
-				}else{
-					rs = stmt.executeQuery("select * from coor_cust_pub_scrip where CustomerID = " + CID +" AND PublicationID = "+ PID);
-					return rs;
-				}
-					
-			}
-			catch(Exception e){
-					e.printStackTrace();
-					return null;
-			}
-		}
+		
 		/**
 		 * Returns the ResultSet containing the set of customers that match the given information. This method is to accept either a CustomerID or a name. 
 		 * If the CustomerID is provided, one customer with the given ID will be in the ResultSet. 
@@ -346,9 +319,9 @@ public class connect{
 	 * @param f		The frequency of the publication (Daily, Weekly, Monthly)
 	 **/
 	
-	public void addPublication(String title, String genre, double price, String frequency, String issuedOn){
+	public void addPublication(String title, String genre, double price, String frequency, int day){
 		try{
-			stmt.executeUpdate("insert into publications (PublicationName, Genre, Price, Frequency, IssueDate) values (\"" + title + "\", \"" + genre + "\", \"" + price + "\", \"" + frequency + "\", \"" + issuedOn + "\")");
+			stmt.executeUpdate("insert into publications (PublicationName, Genre, Price, Frequency, DeliveryDays) values (\"" + title + "\", \"" + genre + "\", \"" + price + "\", \"" + frequency + "\", \"" + day + "\")");
 
 		}
 		catch(Exception e){
@@ -441,10 +414,11 @@ public class connect{
 			return false;
 		}
 	}
-	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP){
+	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP, double lat, double lng){
 		try{
-			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath) values (1, \"" + N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP + "\", \"" + CSE + "\", \"" + FP + "\")");
-			return true;
+			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath, Latitude, Longitude) values (1, \"" +
+		N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP+ "\", \"" + CSE + "\", \""+ FP + "\", \"" + lat +  "\", \"" + lng + "\")");
+			return true;//cn.userSetProfile("Owner", "Paper Inc.", "12345", "4680 Mission Blvd", "San Diego", "CA", "92109", "buddy@gmail.com" ,"6197772323", "buddyPersonal@gmail.com", "desktop");
 		}
 		catch(Exception e){
 			return false;

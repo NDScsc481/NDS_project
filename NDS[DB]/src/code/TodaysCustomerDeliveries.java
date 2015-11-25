@@ -17,82 +17,25 @@ import java.time.LocalDateTime;
 import java.util.*;
 public class TodaysCustomerDeliveries {
 	
-	static LinkedList<publication> todaysPubList = new LinkedList<publication>();
-	static LinkedList<customer> cList = new LinkedList<customer>();
-	
-	public static LinkedList<customer> generateTodaysCustDeliveries(){
-		publication todaysPub;
+	static LinkedList<LatLng> todaysPubList = new LinkedList<LatLng>();
+	static LinkedList<Integer> IDList = new LinkedList<Integer>();
+
+	public static LinkedList<Integer> generateTodaysCustDeliveries(){
+		LatLng latLngPair;
 		connect cn = new connect();
-		ResultSet rs = cn.getAllPublications();
-		
+		Calendar cal = Calendar.getInstance();
+		int day = cal.get(Calendar.DAY_OF_WEEK);
+		int date = cal.get(Calendar.DAY_OF_MONTH);
+		ResultSet rs = cn.getAllPublications(day,date);
 		try{
 			while(rs.next()){
-
-				//String issueDate = rsPub.getString("IssueDate");
-				//String freq = rsPub.getString("Frequency");
-				todaysPub = new publication(cn,rs.getInt("PublicationID"));
-				String nextDate = todaysPub.getNextIssueDate(rs.getString("IssueDate"), rs.getString("Frequency"));
-				Date today = DateTime.getTimeNow();
-				//Date date = DateTime.strToDate(nextDate);
-				String todayStr = DateTime.dateToStr(today);
-				
-				if(nextDate.equals(todayStr)){
-					//todaysPub = new publication(rsPub.getInt("PublicationID"));
-					//System.out.println( "line 32 : "+todaysPub);
-					System.out.println("IssueDate: "+ rs.getString("IssueDate") + " NextIssueDate: "+ nextDate+  " of pub ID: "+ rs.getInt("PublicationID"));
-
-					todaysPubList.add(todaysPub);
-				}
-				//cn.disconnect();
-				
+				latLngPair = new LatLng(rs.getInt("CustomerID"), rs.getDouble("Latitude"),rs.getDouble("Longitude"));
+				todaysPubList.add(latLngPair);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
-	
-	customer cust;
-	//ResultSet rsSub;
-	
+		IDList = DestinationRouter.distanceSort(todaysPubList);
+	return IDList;
 
-	for(int i = 0; i<todaysPubList.size(); i++){
-		rs = cn.searchCustomerWhoSubscribeTo(todaysPubList.get(i).PID);
-		int pubID = todaysPubList.get(i).PID;
-		System.out.println("pub Id: " + todaysPubList.get(i).PID);
-		
-		try{
-			if(rs.next()){
-				//int CID = rsSub.getInt("CustomerID");
-				rs = cn.searchForCustomerInView(rs.getInt("CustomerID"),0);
-				try{
-					if(rs.next()){
-						System.out.println("custID from result set: " + rs.getString("FirstName"));
-
-						int id = rs.getInt("CustomerID");
-						String name = rs.getString("FirstName");
-						String lName = rs.getString("LastName");								
-						String address = rs.getString("Address");
-						String city = rs.getString("City");
-						String state = rs.getString("State");
-						String zip = rs.getString("Zip");
-					    cust = new customer(id, pubID, name, lName, address, city, state, zip, true);
-					    cList.add(cust);
-
-					}
-				}catch(Exception e){
-					e.printStackTrace();
-				}		
-			}
-				
-			}
-		catch(Exception e){
-			e.printStackTrace();
-		}		
-	   		
-		}
-		
-	cn.disconnect();
-
-	return cList;	
-	}
-	
-}
+}}

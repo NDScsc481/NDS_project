@@ -26,5 +26,8 @@ public class LatLng {
 	public String toString(){
 		return "[CustomerID: "+ CID+ " Latitude: " + lat + ", Longitude: " + lng + "]";
 	}
+	public int getCustomerID(){
+		return CID;
+	}
 
 }

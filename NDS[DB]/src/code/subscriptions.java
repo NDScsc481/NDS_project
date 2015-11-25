@@ -42,7 +42,7 @@ public class subscriptions{
 	 
 	            }
 	 
-	            r.close();
+	         
 	 
 	        }
 	        catch(Exception e){
