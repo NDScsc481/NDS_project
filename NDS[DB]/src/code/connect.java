@@ -14,6 +14,10 @@ public class connect{
 	private Statement stmt1;
 	private Statement stmt2;
 	
+	/**
+	 * Constructor for the connection.
+	 * Initializes the necessary connection to the database and creates statement(s) needed to extract information.
+	 */
 	public connect(){
 		try{
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ndsdb", "root", "12345");
@@ -25,13 +29,24 @@ public class connect{
 		}
 	}
 	
+	/**
+	 * Get method returns the Connection 
+	 * Note: This is likely not going to be used.
+	 * 
+	 * @return Connection
+	 */
 	public Connection getConnection(){
 		return con;
 	}
 	
-	/*
-	 * add subscriptions now additionally needs two more parameters String start and String end (strings in form "yyyy-MM-dd")
-	 * */
+	/**
+	 * Add subscriptions now additionally needs two more parameters String start and String end (strings in form "yyyy-MM-dd")
+	 * 
+	 * @param CID	The integer that identifies the customer of the subscription.
+	 * @param PID	The integer that identifies the publication that is being subscribed to.
+	 * @param start	The date that the subscription began on.
+	 * @param end	The date that the subscription is to end on.
+	 */
 	public void addSubscriptions(int CID, int PID,String start ,String end){
 		try{
 			stmt.executeUpdate("insert into SUBSCRIPTIONS (CustomerID, PublicationID, StartDate, EndDate) values (\"" + CID + "\",\"" + PID+"\",  \"" + start+ "\", \"" + end + "\")");
@@ -43,10 +58,11 @@ public class connect{
 	
 	/**
 	 * Returns the SubscriptionID that matches the given CustomerID in the database.
+	 * Used to get the automatically generated SubscriptionID from the database when adding a new subscription
 	 *
 	 * @return int
 	 * 
-	 * @param CID	The int that identifies the customer who the caller would like to find the corresponding SubscriptionID to
+	 * @param CID	The integer that identifies the customer to find corresponding SubscriptionID
 	 **/
 	public int getSubscriptionID(int CID){
 		try{
@@ -61,6 +77,8 @@ public class connect{
 			return 0;
 		}
 	}
+	
+	
 	public ResultSet searchCustomerWhoSubscribeTo(int PID){
 		ResultSet rs;
 		try{
@@ -80,7 +98,6 @@ public class connect{
 	 * 
 	 * @param CID	The int that identifies the customer who the caller would like to get the subscription information for
 	 **/
-	
 	public ResultSet getSubscriptions(int CID){
 		ResultSet subs;
 		try{
@@ -279,6 +296,10 @@ public class connect{
 	}
 	
 	//gets information required to print out bill; see customerpublications view in db
+	/**
+	 * 
+	 * @return
+	 */
 	public ResultSet getBillInfo(){
 		try{
 			return stmt.executeQuery("select * from customerpublications order by CustomerID, PublicationTitle");
@@ -289,10 +310,20 @@ public class connect{
 		}
 	}
 	
-	//gets the day's delivery information for what to deliver to who; ordered by frequency (daily, weekly, monthly)
+	/**
+	 * NEEDS TO BE SEEN!!
+	 * 
+	 * Gets the information on customers due for delivery on the given day.
+	 * Includes customer address information and their subscriptions.
+	 * Received in order of...
+	 * 
+	 * @param wk	The current day of the week 1-6(Su-Sa)
+	 * @param mn	The current day of the month starting at 1
+	 * @return ResultSet
+	 */
 	public ResultSet getSummaryCustomerInfo(int wk, int mn){
 		try{
-			return stmt.executeQuery("select * from customerpublications where DeliveryDays = " + wk + " OR DeliveryDays = " + mn + " OR Frequency = \"daily\" order by Frequency");
+			return stmt.executeQuery("select * from customerpublications where (DeliveryDays = " + wk + " AND Frequency = \"weekly\") OR (DeliveryDays = " + mn + " AND Frequency = \"monthly\") OR Frequency = \"daily\" order by Frequency");
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -300,7 +331,14 @@ public class connect{
 		}
 	}
 	
-	//gets the info of just publications to create a list of what to deliver on the given day and how many with "Count"
+	/**
+	 * Gets a list of publications due for delivery on the given day.
+	 * List includes the name of each publication and a count of how many due.
+	 * 
+	 * @param wk	The current day of the week 1-6(Su-Sa)
+	 * @param mn	The current day of the month starting at 1
+	 * @return ResultSet
+	 */
 	public ResultSet getSummaryPublicationInfo(int wk, int mn){
 		try{
 			return stmt.executeQuery("SELECT PublicationTitle, count(*) as 'Count' FROM customerpublications where DeliveryDays = " + wk + " OR DeliveryDays = " + mn + " OR Frequency = \"daily\" GROUP BY PublicationTitle ORDER BY PublicationTitle");
@@ -331,21 +369,18 @@ public class connect{
 	}
 	
 	/**
+	 * NEEDS TO BE SEEN!!!
+	 * 
+	 * 
+	 * 
 	 * Modifies all of the customer's information at once in the database. Returns whether the modification was successfully made.
 	 * Although it is not likely that all fields will be modified, any combination of them may be modified using this method.
 	 * Does not modify customer status.
-	 *
-	 * @return boolean
 	 * 
-	 * @param CID		The int that identifies the customer to be modified
-	 * @param fN		The customer's new first name
-	 * @param lN		The customer's new last name
-	 * @param addLn1	The customer's new address
-	 * @param addLn2	The customer's new address line two (optional)
-	 * @param c			The customer's new city
-	 * @param s			The customer's new state
-	 * @param z			The customer's new zip code
-	 * @param pN		The customer's new phone number
+	 * @param CID		The integer that identifies the customer to be modified
+	 * @param type
+	 * @param to
+	 * @return boolean
 	 **/
 	public boolean modCustomerInfo(int CID, String type, Date to){
 		try{
@@ -360,10 +395,9 @@ public class connect{
 	/**
 	 * Returns the customer's ID based off of the phone number (unique).
 	 * This is necessary because the customer ID is automatically generated within the database.
-	 *
-	 * @return int
 	 * 
 	 * @param pN	The phone number to search for the customer ID by
+	 * @return int
 	 **/
 	public int getCustomerID(String pN){
 		try{
@@ -382,11 +416,11 @@ public class connect{
 	/**
 	 * Adds a new publication to the database.
 	 * 
-	 * @param t		The title of the publication
-	 * @param g		The genre of the publication
-	 * @param p		The price of the publication
-	 * @param d		The array holding an indicator for whether the publication is delivered on each day of the week (Monday to Sunday)
-	 * @param f		The frequency of the publication (Daily, Weekly, Monthly)
+	 * @param title		The title of the publication
+	 * @param genre		The genre of the publication
+	 * @param price		The price of the publication
+	 * @param frequency	The frequency of the publication (Daily, Weekly, Monthly)
+	 * @param issuedOn	The date that the publication was first issued	
 	 **/
 	public void addPublication(String title, String genre, double price, String frequency, String issuedOn){
 		try{
@@ -404,10 +438,9 @@ public class connect{
 	/**
 	 * Returns the publication ID based off of the title (unique).
 	 * This is necessary because the PunlicationID is automatically generated in the database.
-	 *
-	 * @return int
 	 * 
 	 * @param t		The title of the publication to get the ID for
+	 * @return int
 	 **/
 	public int getPublicationID(String t){
 		try{
@@ -427,11 +460,10 @@ public class connect{
 	 * Returns the ResultSet containing publications that fall under the criteria searched for.
 	 * If the caller provides a PublicationID, one publication will be in the ResultSet.
 	 * If the caller provides a title, all publications that contain the given title will be in the ResultSet
-	 *
-	 * @return ResultSet
 	 * 
 	 * @param PID	The int that identifies the publication to search for
 	 * @param t		The title of the publication to search for
+	 * @return ResultSet
 	 **/
 	public ResultSet searchPublication(int PID, String t){
 		ResultSet rs;
@@ -470,11 +502,10 @@ public class connect{
 	
 	/**
 	 * Modifies the publication status. Returns whether the modification was successfully made.
-	 *
-	 * @return boolean
 	 * 
 	 * @param PID	The in that identifies the publication to modify
 	 * @param st	The new status of the publication
+	 * @return boolean
 	 **/
 	public boolean modPublicationInfo(int PID, String st){
 		try{
@@ -486,6 +517,23 @@ public class connect{
 		}
 	}
 	
+	/**
+	 * Sets the user profile for the first time.
+	 * This will only happen once during the system setup.
+	 * 
+	 * @param N		The login name chosen by the user
+	 * @param cN	The company name
+	 * @param P		The login password chosen by the user
+	 * @param Addr	The company address
+	 * @param C		The company city
+	 * @param S		The company state
+	 * @param Z		The company zip code
+	 * @param E		The e-mail address to be used if password reset is necessary
+	 * @param CSP	The company customer service phone number
+	 * @param CSE	The company customer service e-mail address
+	 * @param FP	The file path chosen by the user
+	 * @return boolean
+	 */
 	public boolean userSetProfile(String N, String cN, String P, String Addr, String C, String S, String Z, String E, String CSP, String CSE, String FP){
 		try{
 			stmt.executeUpdate("insert into USERPROFILE (UserID, Name, CompanyName, Password, Address, City, State, Zip, Email, CSPhone, CSEmail, FilePath) values (1, \"" + N + "\", \"" + cN + "\", \"" + P + "\", \"" + Addr + "\", \"" + C + "\", \"" + S + "\", \"" + Z + "\", \"" + E + "\", \"" + CSP + "\", \"" + CSE + "\", \"" + FP + "\")");
@@ -496,6 +544,12 @@ public class connect{
 		}
 	}
 	
+	/**
+	 * Gets all of the user information from the database.
+	 * User information is stored in one row.
+	 * 
+	 * @return ResultSet
+	 */
 	public ResultSet userGetProfile(){
 		ResultSet rs;
 		try{
@@ -508,6 +562,12 @@ public class connect{
 		}
 	}
 	
+	/**
+	 * Gets, from the database, the file path for the text documents to be sent to when generated.
+	 * Text documents are summaries, driver routes, and bills.
+	 * 
+	 * @return ResultSet
+	 */
 	public ResultSet userGetfilePath(){
 		ResultSet rs;
 		try{
@@ -520,6 +580,15 @@ public class connect{
 		}
 	}
 	
+	/**
+	 * Modifies the user data in the database.
+	 * User data is initialized when the system is set up and can be changed after a login.
+	 * 
+	 * @param type	The name for the column in the database corresponding to the data that is to be changed
+	 * @param to	The value that the data is to be
+	 * 
+	 * @return boolean
+	 */
 	public boolean userModData(String type, String to){
 		try{
 			stmt.executeUpdate("update userprofile set " + type + " = \"" + to + "\" where UserID = 1");
@@ -530,6 +599,10 @@ public class connect{
 		}
 	}
 	
+	/**
+	 * Closes any open statement and disconnects the connection to the database.
+	 * Each time the user logs in to the system, a new connection is made and closed.
+	 */
 	public void disconnect(){
 		try{
 			stmt.close();
