@@ -84,6 +84,18 @@ public class customer {
 			CID = 0;
 		}
 	}
+	
+	//this constructor creates a customer object strictly for the printing function. Only necessary information is initialized to values
+	public customer(int ID, String fN, String lN, String addLn1, String addLn2, String c, String s, String z){
+		CID = ID;
+		firstName = fN;
+		lastName = lN;
+		addrLineOne = addLn1;
+		addrLineTwo = addLn2;
+		city =c;
+		state = s;
+		zip = z;
+	}
 
 	public LatLng getLatLng() {
 		return myPoints;
@@ -176,10 +188,20 @@ public class customer {
 	    
 	    public String getAddress(){
 	        if(addrLineTwo!=null){
-	            return addrLineOne + "\r\n" + addrLineTwo + "\r\n" + city + ", " + state + " " + zip;
+	            return String.format("%s%n%s%n%s, %s %s", addrLineOne, addrLineTwo, city, state, zip);
 	        }
 	        else{
-	            return addrLineOne + "\r\n" + city + ", " + state + " " + zip;
+	        	return String.format("%s%n%s, %s %s", addrLineOne, city, state, zip);
+	        }
+	    }
+	    
+	    //for use without creating a customer object
+	    public static String getAddress(String addLn1, String addLn2, String c, String s, String z){
+	        if(addLn2!=null&&addLn2!=""){
+	            return String.format("%s%n%s%n%s, %s %s", addLn1, addLn2, c, s, z);
+	        }
+	        else{
+	            return String.format("%s%n%s, %s %s", addLn1, c, s, z);
 	        }
 	    }
 	    

@@ -1,5 +1,3 @@
-
-
 import java.sql.ResultSet;
 import java.nio.file.*;
 
@@ -152,7 +150,7 @@ public class user {
 	}
 	
 	public String getAddress(){
-		return addr + "\n" + city + ", " + state + " " + zip;
+		return String.format("%s%n%s, %s %s", addr, city, state, zip);
 	}
 	
 	public String getEmail(){
