@@ -1,5 +1,4 @@
-
-
+package connections;
 import java.io.*;
 import java.sql.ResultSet;
 import java.nio.file.*;

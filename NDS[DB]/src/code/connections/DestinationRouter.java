@@ -1,3 +1,4 @@
+package connections;
 
 
 import java.util.LinkedList;
@@ -12,7 +13,6 @@ public class DestinationRouter{
 		connect cn = new connect();
 		double startLat=0.0;
 		double startLng =0.0;
-
 		ResultSet rs = cn.userGetProfile();	
 		try{
 			startLat= rs.getDouble("Latitude");

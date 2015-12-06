@@ -1,3 +1,4 @@
+package connections;
 
 
 import java.sql.*;
@@ -25,7 +26,7 @@ public class customer {
 		cn = con;
 		cn.addCustomer(fN, lN, addLn1, "", c, st, z, pN);
 		CID = cn.getCustomerID(pN);
-		myPoints = new LatLng(cn, CID);
+		myPoints = new LatLng(cn, CID, z, addLn1, s);
 		status = "ACTIVE";
 		firstName = fN;
 		lastName = lN;
